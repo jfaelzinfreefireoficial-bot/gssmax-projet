@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FaelBots e LikesFF | Acelere Seus Resultados</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #111111;
+            --border-color: #222222;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0A0;
+            --accent: #00F0FF;
+            --accent-glow: rgba(0, 240, 255, 0.2);
+            --btn-color: #00F0FF;
+            --btn-hover: #00C2D1;
+            --btn-text: #000000;
+            --whatsapp-color: #25D366;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 24px;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-toggle-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .menu-toggle-btn:hover {
+            border-color: var(--accent);
+        }
+
+        /* Barra de Pesquisa no Início do Site */
+        .top-search-section {
+            padding: 25px 0 10px 0;
+            background: #050505;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .top-search-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .top-search-input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            color: var(--text-primary);
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .top-search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .top-search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .search-results-box {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-top: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            text-align: left;
+            z-index: 10;
+        }
+
+        .search-result-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .search-result-item:hover {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--accent);
+        }
+
+        /* Sidebar Lateral Direita */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 320px;
+            height: 100%;
+            background: var(--card-bg);
+            border-left: 1px solid var(--border-color);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        .sidebar-header h3 {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        .close-sidebar {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-sidebar:hover {
+            color: var(--text-primary);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin: 30px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            background: #080808;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .sidebar-menu li a:hover {
+            color: var(--text-primary);
+            border-color: var(--accent);
+            background: rgba(0, 240, 255, 0.05);
+        }
+
+        /* Modal de Checkout / Pix */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            max-width: 550px;
+            width: 100%;
+            padding: 40px;
+            box-shadow: 0 0 40px var(--accent-glow);
+            position: relative;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 40px 0;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 58px);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+            text-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2vw, 20px);
+            color: var(--text-secondary);
+            max-width: 750px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* CTA Button */
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background-color: var(--btn-color);
+            color: var(--btn-text);
+            padding: 18px 40px;
+            font-size: 18px;
+            font-weight: 800;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--btn-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(0, 240, 255, 0.6);
+        }
+
+        .anon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #1C1C1C;
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .anon-btn:hover {
+            border-color: var(--text-secondary);
+        }
+
+        /* Proporção 2848x1436 */
+        .hero-image-wrapper {
+            margin: 40px auto 0 auto;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            aspect-ratio: 2848 / 1436;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            display: block;
+        }
+
+        /* SEÇÃO: MENU PLANOS DISPONÍVEIS & LETREIRO ANIMADO */
+        .available-plans-section {
+            padding: 50px 0;
+            background: #050505;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .available-plans-section h3 {
+            font-size: clamp(22px, 3vw, 28px);
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+        }
+
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px 0;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.05);
+        }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: scrollMarquee 25s linear infinite;
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 0 35px;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .marquee-item span {
+            color: var(--accent);
+        }
+
+        .marquee-item i {
+            font-size: 18px;
+            color: var(--accent);
+        }
+
+        @keyframes scrollMarquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .guarantee-text {
+            margin-top: 25px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .guarantee-text i {
+            color: var(--accent);
+            margin-right: 5px;
+        }
+
+        /* Benefícios */
+        .features {
+            padding: 100px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 60px auto;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px 30px;
+            border-radius: 12px;
+            transition: border-color 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+        }
+
+        .card-icon {
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        /* SEÇÃO: O QUE DIZEM NOSSOS CLIENTES (COM SCROLL - MÁXIMO 5 VISÍVEIS) */
+        .testimonials {
+            padding: 100px 0;
+            border-top: 1px solid var(--border-color);
+            background: #050505;
+        }
+
+        .testimonials-scroll-wrapper {
+            max-width: 800px;
+            max-height: 580px; /* Altura aprox para caber até 5 blocos visíveis */
+            overflow-y: auto;
+            margin: 0 auto;
+            padding-right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .testimonials-scroll-wrapper::-webkit-scrollbar {
+            width: 6px;
+        }
+        .testimonials-scroll-wrapper::-webkit-scrollbar-track {
+            background: #080808;
+            border-radius: 10px;
+        }
+        .testimonials-scroll-wrapper::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+        .testimonials-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .client-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            border-top: 1px solid #1a1a1a;
+            padding-top: 15px;
+        }
+
+        .client-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .client-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .client-details h4 {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .client-details p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .review-date-time {
+            font-size: 11px;
+            color: var(--accent);
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .stars {
+            color: #FFC107;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        /* Oferta */
+        .offer {
+            padding: 100px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .offers-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .price-box {
+            background: var(--card-bg);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 50px 30px;
+            box-shadow: 0 0 50px var(--accent-glow);
+            position: relative;
+            text-align: center;
+        }
+
+        .price-box .badge-offer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: #000;
+            font-weight: 800;
+            font-size: 12px;
+            padding: 6px 20px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .old-price {
+            font-size: 18px;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            margin-bottom: 10px;
+        }
+
+        .new-price {
+            font-size: clamp(40px, 6vw, 60px);
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 25px;
+        }
+
+        .new-price span {
+            font-size: 20px;
+            color: var(--accent);
+        }
+
+        .features-list {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 35px;
+        }
+
+        .features-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 15px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .features-list li i {
+            color: var(--accent);
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 100px 0;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .faq-wrapper {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            margin-bottom: 15px;
+            border-radius: 8px;
+            padding: 20px 25px;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .faq-answer {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        /* SEÇÃO DE AVALIAÇÕES / FORMULÁRIO */
+        .live-reviews-section {
+            padding: 100px 0;
+            border-top: 1px solid var(--border-color);
+            background: #030303;
+        }
+
+        .review-form-box {
+            max-width: 650px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            border-radius: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 14px;
+            background: #080808;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: var(--accent);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        .star-rating-select {
+            display: flex;
+            gap: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #444;
+        }
+
+        .star-rating-select .star.selected,
+        .star-rating-select .star.hover {
+            color: #FFC107;
+        }
+
+        .submit-review-btn {
+            width: 100%;
+            background: var(--btn-color);
+            color: var(--btn-text);
+            padding: 14px;
+            font-weight: 800;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+
+        .submit-review-btn:hover {
+            background: var(--btn-hover);
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--text-secondary);
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Chatbot (WhatsApp Flutuante) */
+        .whatsapp-chat-container {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 9999;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .whatsapp-float-btn {
+            background-color: var(--whatsapp-color);
+            color: #FFFFFF;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s;
+            text-decoration: none;
+        }
+
+        .whatsapp-float-btn:hover {
+            transform: scale(1.1);
+            background-color: #1ebe57;
+        }
+
+        .chat-box {
+            position: absolute;
+            bottom: 75px;
+            right: 0;
+            width: 300px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            display: none;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: #111;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-avatar-bot {
+            width: 40px;
+            height: 40px;
+            background: var(--whatsapp-color);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .chat-title-info h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .chat-title-info p {
+            font-size: 12px;
+            color: var(--whatsapp-color);
+        }
+
+        .chat-body {
+            padding: 15px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            background: #080808;
+            min-height: 100px;
+        }
+
+        .chat-message {
+            background: #1c1c1c;
+            padding: 10px 14px;
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 13px;
+            border-left: 3px solid var(--whatsapp-color);
+        }
+
+        .chat-footer {
+            padding: 12px;
+            background: #111;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .chat-start-btn {
+            display: block;
+            background: var(--whatsapp-color);
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        /* Rodapé */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">FAELBOTS E <span>LIKESFF</span></div>
+            <div class="header-actions">
+                <a href="#oferta" class="cta-btn" style="padding: 10px 20px; font-size: 14px; box-shadow: none;">Garantir Acesso</a>
+                <button class="menu-toggle-btn" id="openSidebarTop">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- BARRA DE PESQUISA NO INÍCIO DO SITE -->
+    <section class="top-search-section">
+        <div class="container">
+            <div class="top-search-wrapper">
+                <i class="fa-solid fa-magnifying-glass top-search-icon"></i>
+                <input type="text" id="productSearch" class="top-search-input" placeholder="Pesquisar produtos...">
+                <div id="searchResults" class="search-results-box"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIDEBAR LATERAL DIREITA -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar" id="rightSidebar">
+        <div>
+            <div class="sidebar-header">
+                <h3>Menu Rápido</h3>
+                <button class="close-sidebar" id="closeSidebar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#perfil"><i class="fa-solid fa-user"></i> Perfil</a>
+                </li>
+                <li>
+                    <a href="https://wa.me/555193767174?text=Olá,%20vim%20pelo%20site%20e%20preciso%20de%20suporte%20com%20o%20dono." target="_blank"><i class="fa-solid fa-headset"></i> Suporte direto dono</a>
+                </li>
+                <li>
+                    <a href="https://wa.me/5522998231177?text=Olá,%20vim%20pelo%20site%20e%20preciso%20de%20suporte%20com%20o%20STAFF." target="_blank"><i class="fa-solid fa-users-gear"></i> Suporte STAFF</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- MODAL DE CHECKOUT / PIX SEGURO VIA BACKEND -->
+    <div class="modal-overlay" id="checkoutModalOverlay">
+        <div class="modal-box">
+            <button class="modal-close" id="closeCheckoutModal"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="wallet-card-content">
+                <h3 style="font-size: 18px; margin-bottom: 15px; color: var(--accent);">Pagamento via Pix</h3>
+                <p id="checkoutWelcomeText" style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.5; text-align: left;">
+                    Efetue o pagamento do valor exato via Pix abaixo para receber o produto imediatamente.
+                </p>
+
+                <div style="background: #080808; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; text-align: left; margin-bottom: 20px;">
+                    <span style="font-size: 12px; color: var(--text-secondary); display: block; text-transform: uppercase;">Valor do Produto</span>
+                    <h2 id="checkoutProductPrice" style="font-size: 26px; font-weight: 900; color: var(--accent); margin-top: 5px;">R$ 197,00</h2>
+                </div>
+
+                <div id="pixLoadingArea" style="padding: 30px; text-align: center;">
+                    <div class="spinner"></div>
+                    <p style="color: var(--text-secondary); font-size: 14px; margin-top: 10px;">Gerando QR Code Pix seguro...</p>
+                </div>
+
+                <div id="pixDataArea" style="display: none; background: #141414; border: 1px solid var(--accent); border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: center;">
+                    <p style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px;">
+                        Escaneie o QR Code ou copie o código Pix:
+                    </p>
+                    <div style="background: #fff; padding: 10px; display: inline-block; border-radius: 8px; margin-bottom: 12px;">
+                        <img id="qrCodeImage" src="" alt="QR Code Pix" style="width: 150px; height: 150px; display: block;">
+                    </div>
+                    <div>
+                        <span style="font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 5px;">Pix Copia e Cola:</span>
+                        <textarea id="pixCopyPasteInput" readonly style="width: 100%; height: 70px; padding: 8px; background: #080808; border: 1px solid var(--border-color); color: var(--accent); border-radius: 6px; font-size: 12px; resize: none;"></textarea>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <button class="cta-btn" id="confirmPaymentWhatsappBtn" style="width: 100%; font-size: 14px; padding: 14px; background-color: var(--whatsapp-color); color: #fff; display: none;">
+                        <i class="fa-brands fa-whatsapp"></i> Já Paguei! Enviar Comprovante no WhatsApp
+                    </button>
+                    <button class="anon-btn" id="backToSiteBtn" style="width: 100%; font-size: 13px; padding: 10px;">
+                        Voltar ao site
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHATBOT (WHATSAPP FLUTUANTE) -->
+    <div class="whatsapp-chat-container">
+        <div class="chat-box" id="chatBox">
+            <div class="chat-header">
+                <div class="chat-avatar-bot">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <div class="chat-title-info">
+                    <h4>FaelBots e LikesFF</h4>
+                    <p>Online agora</p>
+                </div>
+            </div>
+            <div class="chat-body">
+                <div class="chat-message">
+                    Olá! 👋 Seja bem-vindo(a). Como posso te ajudar com os projetos de bots hoje?
+                </div>
+            </div>
+            <div class="chat-footer">
+                <a href="https://wa.me/555193767174?text=Olá,%20vim%20pelo%20site%20e%20quero%20saber%20mais%20sobre%20os%20serviços." target="_blank" class="chat-start-btn">
+                    Iniciar Conversa no WhatsApp
+                </a>
+            </div>
+        </div>
+        <div class="whatsapp-float-btn" id="whatsappToggle">
+            <i class="fa-brands fa-whatsapp"></i>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <div class="badge">FaelBots e LikesFF Oficial</div>
+            <h1>Venha adquirir seu Bot projeto. <span>Alugue também nossos Bot para o seu grupo e servidor</span></h1>
+            <p>Sistemas automatizados e estruturados para turbinar suas comunidades e otimizar processos na internet.</p>
+            
+            <a href="#oferta" class="cta-btn">
+                Quero Ver os Projetos <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+            <div class="hero-image-wrapper">
+                <img src="https://i.postimg.cc/L5bmvKDX/fael.jpg" alt="Ilustração FaelBots e LikesFF">
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU PLANOS DISPONÍVEIS & LETREIRO ANIMADO -->
+    <section class="available-plans-section">
+        <div class="container">
+            <h3>Alugue nosso Bot também disponível nessas plataformas</h3>
+            
+            <div class="marquee-container">
+                <div class="marquee-track">
+                    <div class="marquee-item"><i class="fa-brands fa-discord"></i> Discord</div>
+                    <div class="marquee-item"><i class="fa-brands fa-whatsapp"></i> WhatsApp</div>
+                    <div class="marquee-item"><i class="fa-brands fa-telegram"></i> Telegram</div>
+                    <div class="marquee-item"><i class="fa-solid fa-laptop-code"></i> Criação de sites <span>100% profissionais</span></div>
+                    
+                    <div class="marquee-item"><i class="fa-brands fa-discord"></i> Discord</div>
+                    <div class="marquee-item"><i class="fa-brands fa-whatsapp"></i> WhatsApp</div>
+                    <div class="marquee-item"><i class="fa-brands fa-telegram"></i> Telegram</div>
+                    <div class="marquee-item"><i class="fa-solid fa-laptop-code"></i> Criação de sites <span>100% profissionais</span></div>
+                </div>
+            </div>
+
+            <div class="guarantee-text" style="margin-top: 25px;">
+                <i class="fa-solid fa-shield-halved"></i> Garantia incondicional de 7 dias ou seu dinheiro de volta.
+            </div>
+        </div>
+    </section>
+
+    <!-- BENEFÍCIOS -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Por que escolher a FaelBots e LikesFF?</h2>
+            <p class="section-subtitle">Tudo o que você precisa para alcançar o próximo nível sem enrolação.</p>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3>Resultados Rápidos</h3>
+                    <p>Focado em estratégias de implementação imediata para gerar automação e engajamento logo nas primeiras semanas.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3>Escala Eficiente</h3>
+                    <p>Estrutura sólida feita para crescer de forma sustentável acompanhando a evolução do seu negócio ou grupo.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-lock"></i></div>
+                    <h3>Zero Complexidade</h3>
+                    <p>Linguagem simples, direta ao ponto e sem termos técnicos difíceis de entender para configurar seus bots.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO: O QUE DIZEM NOSSOS CLIENTES (COM SCROLL - MÁXIMO 5 VISÍVEIS) -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">O que dizem nossos clientes</h2>
+            <p class="section-subtitle">Experiências reais e verificadas enviadas em tempo real.</p>
+            
+            <!-- Caixa com rolagem (Scroll) contendo os feedbacks -->
+            <div class="testimonials-scroll-wrapper" id="testimonialsGrid">
+                <div class="loading-container" id="testimonialsLoading">
+                    <div class="spinner"></div>
+                    <div class="loading-text">Carregando experiências reais...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OFERTA (COM OS 4 BLOCOS EMPILHADOS) -->
+    <section class="offer" id="oferta">
+        <div class="container">
+            <h2 class="section-title">Garanta Seu Bot ou Projeto Exclusivo</h2>
+            <p class="section-subtitle">Dê o primeiro passo rumo à automatização profissional.</p>
+            
+            <div class="offers-wrapper">
+                
+                <!-- BLOCO 1 -->
+                <div class="price-box">
+                    <div class="badge-offer">Condição Especial - Bloco 1</div>
+                    <div class="old-price">De R$ 997,00 por apenas</div>
+                    <div class="new-price product-price">R$ 197,00 <span>à vista</span></div>
+                    
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-check"></i> Acesso completo e vitalício ao método</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 1: Guia Avançado de Escala</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 2: Planilhas e Ferramentas Prontas</li>
+                        <li><i class="fa-solid fa-check"></i> Suporte exclusivo para dúvidas</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 3: Masterclass de Tráfego Orgânico</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 4: Templates de Copywriting Prontos</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 5: Comunidade Secreta de Networking</li>
+                        <li><i class="fa-solid fa-check"></i> Atualizações gratuitas vitalícias de conteúdo</li>
+                    </ul>
+
+                    <button class="cta-btn buy-btn" style="width: 100%;">
+                        QUERO COMPRAR AGORA <i class="fa-solid fa-lock"></i>
+                    </button>
+                    
+                    <div class="guarantee-text" style="margin-top: 20px;">
+                        <i class="fa-solid fa-rotate-left"></i> Pagamento 100% seguro • Acesso imediato
+                    </div>
+                </div>
+
+                <!-- BLOCO 2 -->
+                <div class="price-box">
+                    <div class="badge-offer">Condição Especial - Bloco 2</div>
+                    <div class="old-price">De R$ 997,00 por apenas</div>
+                    <div class="new-price product-price">R$ 197,00 <span>à vista</span></div>
+                    
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-check"></i> Acesso completo e vitalício ao método</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 1: Guia Avançado de Escala</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 2: Planilhas e Ferramentas Prontas</li>
+                        <li><i class="fa-solid fa-check"></i> Suporte exclusivo para dúvidas</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 3: Masterclass de Tráfego Orgânico</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 4: Templates de Copywriting Prontos</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 5: Comunidade Secreta de Networking</li>
+                        <li><i class="fa-solid fa-check"></i> Atualizações gratuitas vitalícias de conteúdo</li>
+                    </ul>
+
+                    <button class="cta-btn buy-btn" style="width: 100%;">
+                        QUERO COMPRAR AGORA <i class="fa-solid fa-lock"></i>
+                    </button>
+                    
+                    <div class="guarantee-text" style="margin-top: 20px;">
+                        <i class="fa-solid fa-rotate-left"></i> Pagamento 100% seguro • Acesso imediato
+                    </div>
+                </div>
+
+                <!-- BLOCO 3 -->
+                <div class="price-box">
+                    <div class="badge-offer">Condição Especial - Bloco 3</div>
+                    <div class="old-price">De R$ 997,00 por apenas</div>
+                    <div class="new-price product-price">R$ 197,00 <span>à vista</span></div>
+                    
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-check"></i> Acesso completo e vitalício ao método</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 1: Guia Avançado de Escala</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 2: Planilhas e Ferramentas Prontas</li>
+                        <li><i class="fa-solid fa-check"></i> Suporte exclusivo para dúvidas</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 3: Masterclass de Tráfego Orgânico</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 4: Templates de Copywriting Prontos</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 5: Comunidade Secreta de Networking</li>
+                        <li><i class="fa-solid fa-check"></i> Atualizações gratuitas vitalícias de conteúdo</li>
+                    </ul>
+
+                    <button class="cta-btn buy-btn" style="width: 100%;">
+                        QUERO COMPRAR AGORA <i class="fa-solid fa-lock"></i>
+                    </button>
+                    
+                    <div class="guarantee-text" style="margin-top: 20px;">
+                        <i class="fa-solid fa-rotate-left"></i> Pagamento 100% seguro • Acesso imediato
+                    </div>
+                </div>
+
+                <!-- BLOCO 4 -->
+                <div class="price-box">
+                    <div class="badge-offer">Condição Especial - Bloco 4</div>
+                    <div class="old-price">De R$ 997,00 por apenas</div>
+                    <div class="new-price product-price">R$ 197,00 <span>à vista</span></div>
+                    
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-check"></i> Acesso completo e vitalício ao método</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 1: Guia Avançado de Escala</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 2: Planilhas e Ferramentas Prontas</li>
+                        <li><i class="fa-solid fa-check"></i> Suporte exclusivo para dúvidas</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 3: Masterclass de Tráfego Orgânico</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 4: Templates de Copywriting Prontos</li>
+                        <li><i class="fa-solid fa-check"></i> Bônus 5: Comunidade Secreta de Networking</li>
+                        <li><i class="fa-solid fa-check"></i> Atualizações gratuitas vitalícias de conteúdo</li>
+                    </ul>
+
+                    <button class="cta-btn buy-btn" style="width: 100%;">
+                        QUERO COMPRAR AGORA <i class="fa-solid fa-lock"></i>
+                    </button>
+                    
+                    <div class="guarantee-text" style="margin-top: 20px;">
+                        <i class="fa-solid fa-rotate-left"></i> Pagamento 100% seguro • Acesso imediato
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title">Dúvidas Frequentes</h2>
+            <p class="section-subtitle">Tudo o que você precisa saber antes de tomar sua decisão.</p>
+            
+            <div class="faq-wrapper">
+                <div class="faq-item">
+                    <div class="faq-question">Como terei acesso aos bots ou material?</div>
+                    <div class="faq-answer">Assim que o pagamento for confirmado, você receberá os dados de acesso e orientações diretamente no seu WhatsApp ou e-mail cadastrado.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">E se eu não gostar do conteúdo ou bot?</div>
+                    <div class="faq-answer">Você tem uma garantia incondicional de 7 dias. Se por qualquer motivo achar que não atendeu suas expectativas, basta solicitar o reembolso.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Preciso de experiência anterior para configurar os bots?</div>
+                    <div class="faq-answer">Não! Nossa equipe dá todo o suporte necessário para colocar o bot rodando no seu grupo ou servidor.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DE AVALIAÇÕES / FORMULÁRIO -->
+    <section class="live-reviews-section">
+        <div class="container">
+            <h2 class="section-title">Deixe sua Avaliação</h2>
+            <p class="section-subtitle">Sua opinião é fundamental para melhorarmos continuamente.</p>
+
+            <div class="review-form-box">
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label for="clientName">Nome do cliente</label>
+                        <input type="text" id="clientName" class="form-input" placeholder="Digite seu nome..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clientComment">Envie sua avaliação aqui</label>
+                        <textarea id="clientComment" class="form-textarea" placeholder="O que você achou dos serviços?" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Classificação (0 a 5 estrelas)</label>
+                        <div class="star-rating-select" id="starContainer">
+                            <i class="fa-solid fa-star star" data-value="1"></i>
+                            <i class="fa-solid fa-star star" data-value="2"></i>
+                            <i class="fa-solid fa-star star" data-value="3"></i>
+                            <i class="fa-solid fa-star star" data-value="4"></i>
+                            <i class="fa-solid fa-star star" data-value="5"></i>
+                        </div>
+                        <input type="hidden" id="selectedRating" value="5" required>
+                    </div>
+
+                    <button type="submit" class="submit-review-btn">Enviar Avaliação</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-content">
+            <button class="menu-toggle-btn" id="openSidebarBottom" style="margin-bottom: 10px;">
+                <i class="fa-solid fa-bars"></i> Abrir Menu Lateral / Perfil
+            </button>
+            <p>&copy; 2026 FaelBots e LikesFF. Todos os direitos reservados.</p>
+            <p style="font-size: 12px; color: #444;">Termos de Uso | Políticas de Privacidade</p>
+        </div>
+    </footer>
+
+    <!-- SDK do Firebase (Versão 9 Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+
+    <!-- SCRIPTS DE CONTROLE E COMUNICAÇÃO -->
+    <script>
+        const BACKEND_URL = ""; 
+        const WHATSAPP_NUMBER = "555193767174";
+
+        // --- CONFIGURAÇÃO DO FIREBASE (COM SUAS CHAVES REAIS) ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyADlv7CYo5TTRA99PzRmB2jmk0i6Q2X2K4",
+            authDomain: "gssmax-projet.firebaseapp.com",
+            projectId: "gssmax-projet",
+            storageBucket: "gssmax-projet.firebasestorage.app",
+            messagingSenderId: "317306173103",
+            appId: "1:317306173103:web:c5d9506a2dce30d6d6865a",
+            measurementId: "G-MZ4KCWKZKV"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        // --- LÓGICA DE CHECKOUT E QR CODE PIX REAL VIA BACKEND ---
+        const checkoutModalOverlay = document.getElementById('checkoutModalOverlay');
+        const closeCheckoutModal = document.getElementById('closeCheckoutModal');
+        const backToSiteBtn = document.getElementById('backToSiteBtn');
+
+        closeCheckoutModal.addEventListener('click', () => {
+            checkoutModalOverlay.style.display = 'none';
+        });
+
+        checkoutModalOverlay.addEventListener('click', (e) => {
+            if (e.target === checkoutModalOverlay) {
+                checkoutModalOverlay.style.display = 'none';
+            }
+        });
+
+        backToSiteBtn.addEventListener('click', () => {
+            checkoutModalOverlay.style.display = 'none';
+        });
+
+        let selectedProductName = "Projeto Bot Exclusivo";
+        let selectedProductPriceValue = "R$ 197,00";
+
+        const buyButtons = document.querySelectorAll('.buy-btn');
+
+        buyButtons.forEach((btn, index) => {
+            btn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const priceBox = btn.closest('.price-box');
+                const priceText = priceBox.querySelector('.product-price').childNodes[0].nodeValue.trim();
+                selectedProductPriceValue = priceText;
+                selectedProductName = `Bloco de Oferta #${index + 1}`;
+
+                document.getElementById('checkoutProductPrice').textContent = priceText;
+                
+                checkoutModalOverlay.style.display = 'flex';
+                document.getElementById('pixLoadingArea').style.display = 'block';
+                document.getElementById('pixDataArea').style.display = 'none';
+                document.getElementById('confirmPaymentWhatsappBtn').style.display = 'none';
+
+                const numericValue = parseFloat(priceText.replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
+                const clientNameInput = document.getElementById('clientName').value.trim() || 'Visitante';
+
+                try {
+                    const response = await fetch(`${BACKEND_URL}/criar-pagamento-pix`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            transaction_amount: numericValue,
+                            description: selectedProductName,
+                            nome: clientNameInput
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        document.getElementById('qrCodeImage').src = `data:image/jpeg;base64,${data.qrCodeBase64}`;
+                        document.getElementById('pixCopyPasteInput').value = data.qrCodeCopyPaste;
+                        
+                        document.getElementById('pixLoadingArea').style.display = 'none';
+                        document.getElementById('pixDataArea').style.display = 'block';
+                        document.getElementById('confirmPaymentWhatsappBtn').style.display = 'block';
+                    } else {
+                        alert('Erro ao gerar Pix: ' + (data.error || 'Erro desconhecido'));
+                        checkoutModalOverlay.style.display = 'none';
+                    }
+                } catch (error) {
+                    console.error('Erro de conexão com o servidor:', error);
+                    alert('Erro ao conectar com o servidor de pagamentos.');
+                    checkoutModalOverlay.style.display = 'none';
+                }
+            });
+        });
+
+        document.getElementById('confirmPaymentWhatsappBtn').addEventListener('click', () => {
+            const clientNameInput = document.getElementById('clientName').value.trim();
+            const clientDisplayName = clientNameInput !== '' ? clientNameInput : 'Cliente';
+
+            const whatsappMessage = encodeURIComponent(`Olá! Meu nome é *${clientDisplayName}*. Acabei de pagar via PIX o valor de *${selectedProductPriceValue}* (${selectedProductName}). Segue o comprovante para receber o link do produto!`);
+            
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`, '_blank');
+            checkoutModalOverlay.style.display = 'none';
+        });
+
+        // --- SISTEMA DE ESTRELAS INTERATIVO ---
+        const stars = document.querySelectorAll('#starContainer .star');
+        const ratingInput = document.getElementById('selectedRating');
+
+        stars.forEach((star, index) => {
+            if(index < 5) star.classList.add('selected');
+
+            star.addEventListener('click', () => {
+                const val = star.getAttribute('data-value');
+                ratingInput.value = val;
+                stars.forEach((s, i) => {
+                    if (i < val) {
+                        s.classList.add('selected');
+                    } else {
+                        s.classList.remove('selected');
+                    }
+                });
+            });
+        });
+
+        // --- ENVIAR AVALIAÇÃO PARA O FIRESTORE ---
+        const reviewForm = document.getElementById('reviewForm');
+        reviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('clientName').value;
+            const comment = document.getElementById('clientComment').value;
+            const rating = parseInt(ratingInput.value);
+
+            try {
+                await db.collection('avaliacoes').add({
+                    nome: name,
+                    comentario: comment,
+                    estrelas: rating,
+                    criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                reviewForm.reset();
+                ratingInput.value = "5";
+                stars.forEach((s, i) => i < 5 ? s.classList.add('selected') : s.classList.remove('selected'));
+                alert('Avaliação enviada com sucesso! Ela já aparece na seção "O que dizem nossos clientes".');
+            } catch (error) {
+                console.error("Erro ao enviar avaliação: ", error);
+                alert("Erro ao enviar. Verifique as credenciais do Firebase.");
+            }
+        });
+
+        // --- OUVIR E EXIBIR AVALIAÇÕES COM DATA, HORA E SCROLL ---
+        const testimonialsGrid = document.getElementById('testimonialsGrid');
+
+        db.collection('avaliacoes').orderBy('criadoEm', 'desc').onSnapshot((snapshot) => {
+            testimonialsGrid.innerHTML = '';
+
+            if (snapshot.empty) {
+                testimonialsGrid.innerHTML = `
+                    <div class="loading-container">
+                        <div class="spinner"></div>
+                        <div class="loading-text">Nenhuma avaliação cadastrada ainda. Seja o primeiro a avaliar!</div>
+                    </div>
+                `;
+                return;
+            }
+
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const starsCount = data.estrelas || 5;
+                let starsHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    starsHTML += i < starsCount ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star" style="color: #444;"></i>';
+                }
+
+                const clientName = data.nome || 'Anônimo';
+                const clientInitials = clientName.substring(0, 2).toUpperCase();
+
+                // Formatar Data e Horário do Firebase Timestamp
+                let formattedDate = 'Agora mesmo';
+                if (data.criadoEm && data.criadoEm.toDate) {
+                    const dateObj = data.criadoEm.toDate();
+                    const day = String(dateObj.getDate()).padStart(2, '0');
+                    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                    const year = dateObj.getFullYear();
+                    const hours = String(dateObj.getHours()).padStart(2, '0');
+                    const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+                    formattedDate = `${day}/${month}/${year} às ${hours}:${minutes}`;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'testimonial-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="stars">${starsHTML}</div>
+                        <p>"${data.comentario || ''}"</p>
+                    </div>
+                    <div class="client-info">
+                        <div class="client-profile">
+                            <div class="client-avatar">${clientInitials}</div>
+                            <div class="client-details">
+                                <h4>${clientName}</h4>
+                                <p>Cliente Verificado</p>
+                            </div>
+                        </div>
+                        <div class="review-date-time">
+                            <i class="fa-regular fa-clock"></i> ${formattedDate}
+                        </div>
+                    </div>
+                `;
+                testimonialsGrid.appendChild(card);
+            });
+        });
+
+        // --- CONTROLE DA SIDEBAR ---
+        const sidebar = document.getElementById('rightSidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const openTop = document.getElementById('openSidebarTop');
+        const openBottom = document.getElementById('openSidebarBottom');
+        const closeBtn = document.getElementById('closeSidebar');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        openTop.addEventListener('click', toggleSidebar);
+        openBottom.addEventListener('click', toggleSidebar);
+        closeBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        // --- CONTROLE DO CHATBOT ---
+        const whatsappToggle = document.getElementById('whatsappToggle');
+        const chatBox = document.getElementById('chatBox');
+
+        whatsappToggle.addEventListener('click', function() {
+            chatBox.style.display = (chatBox.style.display === 'flex') ? 'none' : 'flex';
+        });
+
+        // --- PESQUISA DE PRODUTOS ---
+        const products = [
+            { name: "Aluguel de Bot para Servidor/Grupo", link: "#oferta" },
+            { name: "Projetos de Bots Exclusivos", link: "#oferta" },
+            { name: "Suporte Técnico", link: "https://wa.me/555193767174" }
+        ];
+
+        const searchInput = document.getElementById('productSearch');
+        const searchResults = document.getElementById('searchResults');
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            searchResults.innerHTML = '';
+
+            if (query.length === 0) {
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+
+            if (filtered.length > 0) {
+                filtered.forEach(item => {
+                    const a = document.createElement('a');
+                    a.href = item.link;
+                    a.className = 'search-result-item';
+                    a.textContent = item.name;
+                    if(item.link.startsWith('http')) {
+                        a.target = "_blank";
+                    }
+                    a.addEventListener('click', () => {
+                        searchResults.style.display = 'none';
+                        searchInput.value = '';
+                    });
+                    searchResults.appendChild(a);
+                });
+                searchResults.style.display = 'block';
+            } else {
+                const div = document.createElement('div');
+                div.className = 'search-result-item';
+                div.textContent = 'Nenhum produto encontrado';
+                div.style.color = '#777';
+                searchResults.appendChild(div);
+                searchResults.style.display = 'block';
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
