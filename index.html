@@ -1,0 +1,2685 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page_title">Método Exclusivo | Acelere Seus Resultados</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #FFFFFF;
+            --card-bg: #F8FAFC;
+            --border-color: #E2E8F0;
+            --text-primary: #0F172A;
+            --text-secondary: #64748B;
+            --accent: #0066FF;
+            --accent-glow: rgba(0, 102, 255, 0.15);
+            --btn-color: #0066FF;
+            --btn-hover: #0052CC;
+            --btn-text: #FFFFFF;
+            --whatsapp-color: #25D366;
+            --google-red: #DB4437;
+        }
+
+        /* SISTEMA RÍGIDO ANTI-CÓPIA (CSS) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        input, textarea, select {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Ajustado para Mobile */
+        header {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            background: #FFFFFF;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .menu-toggle-btn, .cart-toggle-btn, .lang-select-btn, .google-login-header-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: border-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            font-weight: 600;
+        }
+
+        .menu-toggle-btn:hover, .cart-toggle-btn:hover, .lang-select-btn:hover, .google-login-header-btn:hover {
+            border-color: var(--accent);
+        }
+
+        .google-login-header-btn {
+            background: #F1F5F9;
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .lang-select-btn select {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            max-width: 140px;
+        }
+
+        .lang-select-btn select option {
+            background: #FFFFFF;
+            color: var(--text-primary);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 900;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Carrinho Lateral (Drawer) */
+        .cart-drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(3px);
+            z-index: 1050;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .cart-drawer-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 320px;
+            height: 100%;
+            background: #FFFFFF;
+            border-left: 1px solid var(--border-color);
+            z-index: 1100;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .cart-drawer.active {
+            right: 0;
+        }
+
+        .cart-drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .cart-drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cart-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-drawer-footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        /* Barra de Pesquisa */
+        .top-search-section {
+            padding: 20px 0 10px 0;
+            background: #FAFAFA;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .top-search-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .top-search-input {
+            width: 100%;
+            padding: 12px 18px 12px 42px;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .top-search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .top-search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .search-results-box {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-top: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            text-align: left;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .search-result-item {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 13px;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .search-result-item:hover {
+            background: rgba(0, 102, 255, 0.05);
+            color: var(--accent);
+        }
+
+        /* Sidebar Lateral Direita */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(3px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 280px;
+            height: 100%;
+            background: #FFFFFF;
+            border-left: 1px solid var(--border-color);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            overflow-y: auto;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .sidebar-header h3 {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .close-sidebar, .close-cart {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        /* Seção de Perfil no Menu Lateral */
+        .sidebar-profile-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--accent);
+        }
+
+        .sidebar-profile-info h4 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 170px;
+        }
+
+        .sidebar-profile-info p {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .google-login-sidebar-btn {
+            background: #DB4437;
+            color: #fff;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px 0;
+            transition: background 0.3s;
+        }
+
+        .google-login-sidebar-btn:hover {
+            background: #c53727;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sidebar-menu li a, .sidebar-menu button.sidebar-item-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 12px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .sidebar-menu li a:hover, .sidebar-menu button.sidebar-item-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--accent);
+            background: rgba(0, 102, 255, 0.05);
+        }
+
+        /* Sub-opções de Música */
+        .sidebar-music-submenu {
+            background: #F8FAFC;
+            border: 1px dashed var(--accent);
+            border-radius: 8px;
+            padding: 8px;
+            margin-top: -6px;
+            margin-bottom: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .sidebar-music-submenu.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .sidebar-music-item {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            text-align: left;
+            width: 100%;
+        }
+
+        .sidebar-music-item:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(0, 102, 255, 0.05);
+        }
+
+        /* Nova Lógica: Modal de Validação Simplificada / Hub Direto */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .modal-box {
+            background: #FFFFFF;
+            border: 2px solid var(--accent);
+            border-radius: 14px;
+            max-width: 480px;
+            width: 100%;
+            padding: 25px;
+            box-shadow: 0 10px 30px var(--accent-glow);
+            position: relative;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 50px 0 30px 0;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 102, 255, 0.08);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(26px, 5vw, 48px);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: clamp(14px, 2vw, 18px);
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto 30px auto;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: var(--btn-color);
+            color: var(--btn-text);
+            padding: 14px 28px;
+            font-size: 15px;
+            font-weight: 800;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.25);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--btn-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 255, 0.35);
+        }
+
+        .anon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #F1F5F9;
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .hero-image-wrapper {
+            margin: 30px auto 0 auto;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            aspect-ratio: 2848 / 1436;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+            display: block;
+            pointer-events: none;
+        }
+
+        .block-img-wrapper {
+            margin: 15px 0;
+            width: 100%;
+        }
+
+        .block-img-wrapper img {
+            width: 100%;
+            aspect-ratio: 2848 / 1436;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: block;
+            pointer-events: none;
+        }
+
+        /* SEÇÃO: MENU PLANOS & LETREIRO ANIMADO */
+        .available-plans-section {
+            padding: 40px 0;
+            background: #FAFAFA;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .available-plans-section h3 {
+            font-size: clamp(18px, 2.5vw, 24px);
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            padding: 0 10px;
+        }
+
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 0;
+        }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: scrollMarquee 25s linear infinite;
+        }
+
+        .marquee-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 25px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .marquee-item span {
+            color: var(--accent);
+        }
+
+        .marquee-item i {
+            font-size: 16px;
+            color: var(--accent);
+        }
+
+        @keyframes scrollMarquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .guarantee-text {
+            margin-top: 20px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .guarantee-text i {
+            color: var(--accent);
+            margin-right: 4px;
+        }
+
+        /* Benefícios */
+        .features {
+            padding: 60px 0;
+            border-top: 1px solid var(--border-color);
+            background: #FFFFFF;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(24px, 3.5vw, 36px);
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+            padding: 0 10px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 580px;
+            margin: 0 auto 40px auto;
+            padding: 0 10px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px 20px;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+        }
+
+        .card-icon {
+            font-size: 28px;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Prova Social Estática */
+        .testimonials {
+            padding: 60px 0;
+            border-top: 1px solid var(--border-color);
+            background: #FAFAFA;
+        }
+
+        .testimonial-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            padding: 25px 20px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .client-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .client-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 14px;
+        }
+
+        .client-details h4 {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .client-details p {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .stars {
+            color: #F59E0B;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        /* Oferta */
+        .offer {
+            padding: 60px 0;
+            border-top: 1px solid var(--border-color);
+            background: #FFFFFF;
+        }
+
+        .offers-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+
+        .price-box {
+            background: #FFFFFF;
+            border: 2px solid var(--accent);
+            border-radius: 14px;
+            padding: 40px 20px;
+            box-shadow: 0 10px 30px var(--accent-glow);
+            position: relative;
+            text-align: center;
+        }
+
+        .price-box .badge-offer {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: #fff;
+            font-weight: 800;
+            font-size: 11px;
+            padding: 5px 16px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .old-price {
+            font-size: 16px;
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            margin-bottom: 8px;
+        }
+
+        .new-price {
+            font-size: clamp(34px, 5vw, 50px);
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .new-price span {
+            font-size: 16px;
+            color: var(--accent);
+        }
+
+        .features-list {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .features-list li i {
+            color: var(--accent);
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 60px 0;
+            border-top: 1px solid var(--border-color);
+            background: #FAFAFA;
+        }
+
+        .faq-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+
+        .faq-item {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            border-radius: 8px;
+            padding: 16px 20px;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .faq-answer {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Avaliações em Tempo Real */
+        .live-reviews-section {
+            padding: 60px 0;
+            border-top: 1px solid var(--border-color);
+            background: #FFFFFF;
+        }
+
+        .review-form-box {
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 25px 20px;
+            border-radius: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--accent);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            height: 90px;
+        }
+
+        .star-rating-select {
+            display: flex;
+            gap: 8px;
+            font-size: 22px;
+            cursor: pointer;
+            color: #CBD5E1;
+        }
+
+        .star-rating-select .star.selected {
+            color: #F59E0B;
+        }
+
+        .submit-review-btn {
+            width: 100%;
+            background: var(--btn-color);
+            color: var(--btn-text);
+            padding: 12px;
+            font-weight: 800;
+            font-size: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.3s;
+        }
+
+        .reviews-scroll-container {
+            max-width: 750px;
+            max-height: 480px;
+            overflow-y: auto;
+            margin: 0 auto;
+            padding: 0 10px 10px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .dynamic-review-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 10px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- SISTEMA DE ALERTAS DE FEEDBACKS REDUZIDO (CANTO INFERIOR ESQUERDO) --- */
+        .live-alerts-container {
+            position: fixed;
+            bottom: 15px;
+            left: 15px;
+            z-index: 9998;
+            max-width: 250px;
+            width: 100%;
+            pointer-events: none;
+        }
+
+        .live-alert-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 8px 10px;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.15);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            pointer-events: auto;
+            animation: slideInLeft 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .live-alert-icon {
+            color: var(--accent);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .live-alert-content h5 {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .live-alert-content h5 span {
+            font-size: 9px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .live-alert-content p {
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.25;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Chatbot / Sistema de Tickets WhatsApp */
+        .whatsapp-chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .whatsapp-float-btn {
+            background-color: var(--whatsapp-color);
+            color: #FFFFFF;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s;
+            text-decoration: none;
+        }
+
+        .whatsapp-float-btn:hover {
+            transform: scale(1.1);
+            background-color: #1ebe57;
+        }
+
+        .chat-box {
+            position: absolute;
+            bottom: 65px;
+            right: 0;
+            width: 320px;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            display: none;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: #F8FAFC;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-avatar-bot {
+            width: 36px;
+            height: 36px;
+            background: var(--whatsapp-color);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .chat-title-info h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .chat-title-info p {
+            font-size: 11px;
+            color: var(--whatsapp-color);
+        }
+
+        .chat-body {
+            padding: 12px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            background: #FAFAFA;
+            height: 240px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chat-message {
+            background: #FFFFFF;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 12px;
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--whatsapp-color);
+        }
+
+        .chat-ticket-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 10px;
+            background: #FFFFFF;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chat-input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 12px;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .chat-input:focus {
+            border-color: var(--whatsapp-color);
+        }
+
+        .chat-send-btn {
+            background: var(--whatsapp-color);
+            color: #fff;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .chat-send-btn:hover {
+            background: #1ebe57;
+        }
+
+        /* Rodapé */
+        footer {
+            padding: 30px 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 13px;
+            background: #FFFFFF;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 0 10px;
+        }
+
+        /* Página de Arquivos Base Free (Atualizada com a Nova Lógica de Solicitação Direta) */
+        .free-files-page {
+            display: none;
+            padding: 40px 0;
+            background: var(--bg-color);
+            min-height: 80vh;
+            animation: fadeIn 0.3s ease;
+        }
+        .free-files-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 25px 20px;
+            box-shadow: 0 10px 25px rgba(0, 102, 255, 0.05);
+        }
+        .free-files-container h2 {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+        .free-files-container p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .base-options-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .base-option-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .base-option-item:hover, .base-option-item.selected {
+            border-color: var(--accent);
+            background: rgba(0, 102, 255, 0.05);
+        }
+        .key-timer-box {
+            background: #F8FAFC;
+            border: 1px dashed var(--accent);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        /* Página Likes FF */
+        .likes-ff-page {
+            display: none;
+            padding: 40px 0;
+            background: var(--bg-color);
+            min-height: 80vh;
+            animation: fadeIn 0.3s ease;
+        }
+        .likes-ff-container {
+            max-width: 750px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 30px 20px;
+            box-shadow: 0 10px 30px rgba(0, 102, 255, 0.08);
+        }
+        .likes-ff-container h2 {
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            color: var(--accent);
+            text-align: center;
+        }
+        .likes-ff-container .subtitle-desc {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 25px;
+            text-align: center;
+            line-height: 1.5;
+        }
+        .packages-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .package-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 14px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+        }
+        .package-item span {
+            color: var(--accent);
+        }
+        .warning-box {
+            background: rgba(0, 102, 255, 0.05);
+            border: 1px dashed var(--accent);
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">MARCA<span>PRO</span></div>
+            <div class="header-actions">
+                <button class="google-login-header-btn" id="headerGoogleLoginBtn" title="Entrar com o Google">
+                    <i class="fa-brands fa-google" style="color: #DB4437;"></i> <span id="headerLoginText">Entrar</span>
+                </button>
+                <div class="lang-select-btn" title="Global Language / Idioma Global">
+                    <select id="languageSelector">
+                        <option value="pt">🇧🇷 PT (Brasil)</option>
+                        <option value="pt-pt">🇵🇹 PT (Portugal)</option>
+                        <option value="en">🇺🇸 EN (English)</option>
+                        <option value="es">🇪🇸 ES (Español)</option>
+                        <option value="fr">🇫🇷 FR (Français)</option>
+                        <option value="de">🇩🇪 DE (Deutsch)</option>
+                        <option value="it">🇮🇹 IT (Italiano)</option>
+                        <option value="ja">🇯🇵 JA (日本語)</option>
+                        <option value="zh">🇨🇳 ZH (中文)</option>
+                        <option value="hi">🇮🇳 HI (हिन्दी)</option>
+                        <option value="ar">🇸🇦 AR (العربية)</option>
+                        <option value="ru">🇷🇺 RU (Русский)</option>
+                        <option value="ko">🇰🇷 KO (한국어)</option>
+                        <option value="tr">🇹🇷 TR (Türkçe)</option>
+                        <option value="id">🇮🇩 ID (Indonesia)</option>
+                    </select>
+                </div>
+                <button class="cart-toggle-btn" id="openCartBtn" title="Carrinho de Compras">
+                    <i class="fa-solid fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </button>
+                <button class="menu-toggle-btn" id="openSidebarTop">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- CARRINHO LATERAL (DRAWER) -->
+    <div class="cart-drawer-overlay" id="cartDrawerOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-drawer-header">
+            <h3 style="font-size: 16px; font-weight: 800;"><i class="fa-solid fa-shopping-cart" style="color: var(--accent);"></i> <span data-i18n="cart_title">Seu Carrinho</span></h3>
+            <button class="close-cart" id="closeCartBtn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-drawer-body" id="cartItemsList">
+            <p style="color: var(--text-secondary); text-align: center; font-size: 13px; margin-top: 20px;" data-i18n="cart_empty">Seu carrinho está vazio.</p>
+        </div>
+        <div class="cart-drawer-footer">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <span style="color: var(--text-secondary); font-size: 13px;" data-i18n="cart_total">Total:</span>
+                <strong id="cartTotalPrice" style="font-size: 18px; color: var(--accent);">R$ 0,00</strong>
+            </div>
+            <button class="cta-btn" id="checkoutCartBtn" style="width: 100%; font-size: 13px; padding: 12px;">
+                <span data-i18n="checkout_btn">Finalizar Compra</span> <i class="fa-solid fa-lock"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- BARRA DE PESQUISA -->
+    <section class="top-search-section">
+        <div class="container">
+            <div class="top-search-wrapper">
+                <i class="fa-solid fa-magnifying-glass top-search-icon"></i>
+                <input type="text" id="productSearch" class="top-search-input" data-i18n-placeholder="search_placeholder" placeholder="Pesquisar produtos...">
+                <div id="searchResults" class="search-results-box"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIDEBAR LATERAL DIREITA -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar" id="rightSidebar">
+        <div>
+            <div class="sidebar-header">
+                <h3 data-i18n="sidebar_title">Menu Rápido</h3>
+                <button class="close-sidebar" id="closeSidebar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Bloco de Perfil / Login Google no Menu -->
+            <div id="sidebarAuthContainer">
+                <button class="google-login-sidebar-btn" id="sidebarGoogleLoginBtn">
+                    <i class="fa-brands fa-google"></i> Entrar com o Google
+                </button>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" id="openLikesFFBtn"><i class="fa-solid fa-fire"></i> <span>Likes FF</span></a>
+                </li>
+                <li>
+                    <a href="#" id="openMyDownloadsBtn"><i class="fa-solid fa-folder-open"></i> <span data-i18n="menu_my_downloads">Meus Downloads</span></a>
+                </li>
+                <li>
+                    <a href="#suporte"><i class="fa-solid fa-headset"></i> <span data-i18n="menu_support">Suporte</span></a>
+                </li>
+                <li>
+                    <a href="#" id="openMyKeyBtn"><i class="fa-solid fa-key"></i> <span data-i18n="menu_my_key">Minha Key</span></a>
+                </li>
+                <li>
+                    <a href="adm.html"><i class="fa-solid fa-shield-halved"></i> <span data-i18n="menu_adm">Painel ADM</span></a>
+                </li>
+                <li>
+                    <a href="#" id="toggleMusicMenuSidebar"><i class="fa-solid fa-music"></i> <span data-i18n="menu_music_site">Music Site</span> <i class="fa-solid fa-chevron-down" id="musicMenuArrow" style="margin-left: auto; font-size: 11px;"></i></a>
+                </li>
+                <div class="sidebar-music-submenu" id="sidebarMusicSubmenu">
+                    <button class="sidebar-music-item" id="playMusicOption">
+                        <i class="fa-solid fa-play" style="color: var(--accent);"></i> <span data-i18n="music_play">Produzir / Tocar Música</span>
+                    </button>
+                    <button class="sidebar-music-item" id="stopMusicOption">
+                        <i class="fa-solid fa-pause" style="color: #ff4444;"></i> <span data-i18n="music_stop">Parar Música</span>
+                    </button>
+                </div>
+            </ul>
+        </div>
+    </div>
+
+    <!-- MODAL "MINHA KEY" (Atualizado para Nova Lógica Informativa / Solicitação Direta) -->
+    <div class="modal-overlay" id="myKeyModalOverlay">
+        <div class="modal-box">
+            <button class="modal-close" id="closeMyKeyModal"><i class="fa-solid fa-xmark"></i></button>
+            <h3 style="font-size: 18px; margin-bottom: 12px; color: var(--accent);"><i class="fa-solid fa-key"></i> <span data-i18n="key_modal_title">Gerenciamento de Keys</span></h3>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.5; text-align: left;">
+                Agora todo o processo de liberação, consulta e verificação de chaves é feito de forma automatizada e direta com o nosso suporte oficial via WhatsApp. Clique no botão abaixo para solicitar ou verificar a sua chave instantaneamente!
+            </p>
+            <button class="cta-btn" id="modalWhatsAppKeyBtn" style="width: 100%; margin-bottom: 10px; font-size: 13px; padding: 12px;">
+                <i class="fa-brands fa-whatsapp"></i> Solicitar / Consultar via WhatsApp
+            </button>
+            <button class="anon-btn" id="closeMyKeyBtn" style="width: 100%;" data-i18n="close_btn">Fechar</button>
+        </div>
+    </div>
+
+    <!-- SISTEMA DE ALERTAS FLUTUANTES REDUZIDO (CANTO INFERIOR ESQUERDO) -->
+    <div class="live-alerts-container" id="liveAlertsContainer"></div>
+
+    <!-- CHATBOT / TICKET WHATSAPP INTEGRADO AO ADM -->
+    <div class="whatsapp-chat-container">
+        <div class="chat-box" id="chatBox">
+            <div class="chat-header">
+                <div class="chat-avatar-bot">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <div class="chat-title-info">
+                    <h4>Suporte GssMax</h4>
+                    <p data-i18n="chat_online">Online • Resposta Direta</p>
+                </div>
+            </div>
+            <div class="chat-body" id="chatMessagesBody">
+                <div class="chat-message" data-i18n="chat_welcome">
+                    Olá! 👋 Abra seu ticket de suporte abaixo. O Faelzin responderá diretamente por aqui em tempo real!
+                </div>
+            </div>
+            <div class="chat-ticket-form" id="chatTicketFormContainer">
+                <input type="text" id="ticketClientName" class="chat-input" placeholder="Seu Nome..." required>
+                <textarea id="ticketClientMsg" class="chat-input" style="resize: none; height: 45px;" placeholder="Digite sua dúvida ou pedido..." required></textarea>
+                <button type="button" id="sendTicketBtn" class="chat-send-btn">Abrir Ticket de Suporte</button>
+            </div>
+        </div>
+        <div class="whatsapp-float-btn" id="whatsappToggle">
+            <i class="fa-brands fa-whatsapp"></i>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="mainHeroSection">
+        <div class="container">
+            <div class="badge" data-i18n="hero_badge">O Método Definitivo</div>
+            <h1 data-i18n="hero_title">Transforme Sua Presença Digital e <span>Multiplique Suas Vendas</span></h1>
+            <p data-i18n="hero_desc">Descubra o sistema passo a passo testado e aprovado para escalar seus lucros na internet, mesmo que você esteja começando do absoluto zero.</p>
+            
+            <a href="#oferta" class="cta-btn">
+                <span data-i18n="hero_cta">Quero Acessar o Método Agora</span> <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+            <div class="hero-image-wrapper">
+                <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop" alt="Ilustração do Método Exclusivo">
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU PLANOS DISPONÍVEIS & LETREIRO ANIMADO -->
+    <section class="available-plans-section">
+        <div class="container">
+            <h3 data-i18n="plans_title">Alugue nosso Bot também disponível nessas plataformas</h3>
+            
+            <div class="marquee-container">
+                <div class="marquee-track">
+                    <div class="marquee-item"><i class="fa-brands fa-discord"></i> Discord</div>
+                    <div class="marquee-item"><i class="fa-brands fa-whatsapp"></i> WhatsApp</div>
+                    <div class="marquee-item"><i class="fa-brands fa-telegram"></i> Telegram</div>
+                    <div class="marquee-item"><i class="fa-solid fa-laptop-code"></i> <span data-i18n="marquee_sites">Criação de sites</span> <span>100% profissionais</span></div>
+                    
+                    <div class="marquee-item"><i class="fa-brands fa-discord"></i> Discord</div>
+                    <div class="marquee-item"><i class="fa-brands fa-whatsapp"></i> WhatsApp</div>
+                    <div class="marquee-item"><i class="fa-brands fa-telegram"></i> Telegram</div>
+                    <div class="marquee-item"><i class="fa-solid fa-laptop-code"></i> <span data-i18n="marquee_sites">Criação de sites</span> <span>100% profissionais</span></div>
+                </div>
+            </div>
+
+            <div class="guarantee-text" style="margin-top: 15px;">
+                <i class="fa-solid fa-shield-halved"></i> <span data-i18n="guarantee_text">Garantia incondicional de 7 dias ou seu dinheiro de volta.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- BENEFÍCIOS -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title" data-i18n="features_title">Por que este método funciona?</h2>
+            <p class="section-subtitle" data-i18n="features_subtitle">Tudo o que você precisa para alcançar o próximo nível sem enrolação.</p>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3 data-i18n="feat_1_title">Resultados Rápidos</h3>
+                    <p data-i18n="feat_1_desc">Focado em estratégias de implementação imediata para gerar caixa logo nas primeiras semanas.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3 data-i18n="feat_2_title">Escala Escalável</h3>
+                    <p data-i18n="feat_2_desc">Estrutura sólida feita para crescer de forma sustentável acompanhando a evolução do seu negócio.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon"><i class="fa-solid fa-lock"></i></div>
+                    <h3 data-i18n="feat_3_title">Zero Complexidade</h3>
+                    <p data-i18n="feat_3_desc">Linguagem simples, direta ao ponto e sem termos técnicos difíceis de entender.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROVA SOCIAL ESTÁTICA -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title" data-i18n="testimonials_title">O que dizem nossos alunos</h2>
+            <p class="section-subtitle" data-i18n="testimonials_subtitle">Histórias reais de pessoas que aplicaram o método.</p>
+            
+            <div class="grid-3">
+                <div class="testimonial-card">
+                    <div>
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p data-i18n="test_1">"Simplesmente mudou o rumo da minha empresa. Conquistei o dobro de clientes no primeiro mês de aplicação."</p>
+                    </div>
+                    <div class="client-info">
+                        <div class="client-avatar">CR</div>
+                        <div class="client-details">
+                            <h4>Carlos Ramos</h4>
+                            <p data-i18n="client_role_1">Empresário</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div>
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p data-i18n="test_2">"O suporte é incrível e o conteúdo é super direto ao ponto. Vale cada centavo investido!"</p>
+                    </div>
+                    <div class="client-info">
+                        <div class="client-avatar">JS</div>
+                        <div class="client-details">
+                            <h4>Juliana Souza</h4>
+                            <p data-i18n="client_role_2">Empreendedora Digital</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div>
+                        <div class="stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p data-i18n="test_3">"Eu não sabia nada de tráfego nem de vendas online. Hoje consigo faturar todos os dias de forma consistente."</p>
+                    </div>
+                    <div class="client-info">
+                        <div class="client-avatar">MC</div>
+                        <div class="client-details">
+                            <h4>Marcos Costa</h4>
+                            <p data-i18n="client_role_3">Autônomo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OFERTA -->
+    <section class="offer" id="oferta">
+        <div class="container">
+            <h2 class="section-title" data-i18n="offer_section_title">Garanta Seu Acesso Completo</h2>
+            <p class="section-subtitle" data-i18n="offer_section_subtitle">Dê o primeiro passo rumo à sua transformação profissional.</p>
+            
+            <div class="offers-wrapper">
+                <div class="price-box">
+                    <div class="badge-offer" data-i18n="offer_badge">Condição Especial</div>
+                    <div class="old-price" data-i18n="offer_old_price">De R$ 997,00 por apenas</div>
+                    
+                    <div class="block-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=800&auto=format&fit=crop" alt="Imagem Oferta">
+                    </div>
+
+                    <div class="new-price">R$ 197,00 <span data-i18n="offer_cash">à vista</span></div>
+                    
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="offer_li_1">Acesso completo e vitalício ao método</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="offer_li_2">Bônus 1: Guia Avançado de Escala</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="offer_li_3">Bônus 2: Planilhas e Ferramentas Prontas</span></li>
+                        <li><i class="fa-solid fa-check"></i> <span data-i18n="offer_li_4">Suporte exclusivo para dúvidas</span></li>
+                    </ul>
+
+                    <button class="cta-btn add-to-cart-btn" data-name="Método Exclusivo Completo" data-price="197.00" style="width: 100%;">
+                        <span data-i18n="add_to_cart_btn">ADICIONAR AO CARRINHO</span> <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                    
+                    <div class="guarantee-text" style="margin-top: 15px;">
+                        <i class="fa-solid fa-rotate-left"></i> <span data-i18n="secure_payment">Pagamento 100% seguro • Acesso imediato</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq">
+        <div class="container">
+            <h2 class="section-title" data-i18n="faq_title">Dúvidas Frequentes</h2>
+            <p class="section-subtitle" data-i18n="faq_subtitle">Tudo o que você precisa saber antes de tomar sua decisão.</p>
+            
+            <div class="faq-wrapper">
+                <div class="faq-item">
+                    <div class="faq-question" data-i18n="faq_q1">Como terei acesso ao material?</div>
+                    <div class="faq-answer" data-i18n="faq_a1">Assim que o pagamento for confirmado, você receberá os dados de acesso diretamente no seu e-mail cadastrado.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" data-i18n="faq_q2">E se eu não gostar do conteúdo?</div>
+                    <div class="faq-answer" data-i18n="faq_a2">Você tem uma garantia incondicional de 7 dias. Se por qualquer motivo achar que o método não é para você, basta solicitar o reembolso.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" data-i18n="faq_q3">Preciso de experiência anterior?</div>
+                    <div class="faq-answer" data-i18n="faq_a3">Não! O método foi desenhado para pegar você pela mão, desde o básico absoluto até as estratégias avançadas.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DE AVALIAÇÕES EM TEMPO REAL (FIREBASE) -->
+    <section class="live-reviews-section">
+        <div class="container">
+            <h2 class="section-title" data-i18n="reviews_title">Deixe sua Avaliação</h2>
+            <p class="section-subtitle" data-i18n="reviews_subtitle">Sua opinião é fundamental para melhorarmos continuamente.</p>
+
+            <div class="review-form-box">
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label for="clientName" data-i18n="review_name_label">Nome do cliente</label>
+                        <input type="text" id="clientName" class="form-input" data-i18n-placeholder="review_name_placeholder" placeholder="Digite seu nome..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clientComment" data-i18n="review_comment_label">Envie sua avaliação aqui</label>
+                        <textarea id="clientComment" class="form-textarea" data-i18n-placeholder="review_comment_placeholder" placeholder="O que você achou do método?" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-i18n="review_rating_label">Classificação (0 a 5 estrelas)</label>
+                        <div class="star-rating-select" id="starContainer">
+                            <i class="fa-solid fa-star star selected" data-value="1"></i>
+                            <i class="fa-solid fa-star star selected" data-value="2"></i>
+                            <i class="fa-solid fa-star star selected" data-value="3"></i>
+                            <i class="fa-solid fa-star star selected" data-value="4"></i>
+                            <i class="fa-solid fa-star star selected" data-value="5"></i>
+                        </div>
+                        <input type="hidden" id="selectedRating" value="5" required>
+                    </div>
+
+                    <button type="submit" class="submit-review-btn" data-i18n="review_submit_btn">Enviar Avaliação</button>
+                </form>
+            </div>
+
+            <h2 class="section-title" style="font-size: 20px; margin-bottom: 25px;" data-i18n="recent_reviews_title">Avaliações Recentes</h2>
+            
+            <div class="reviews-scroll-container" id="reviewsGrid">
+                <div class="loading-container" id="loadingState">
+                    <div class="spinner"></div>
+                    <div class="loading-text" data-i18n="loading_reviews">Aguardando novas avaliações...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PÁGINA: LIKES FF -->
+    <div id="likesFFPage" class="likes-ff-page">
+        <div class="container">
+            <div class="likes-ff-container">
+                <button id="backToMainFromLikes" class="anon-btn" style="margin-bottom: 20px;"><i class="fa-solid fa-arrow-left"></i> Voltar ao Início</button>
+                
+                <h2>Sejam bem vindos ao nosso site automatização de Likes via ID único oficial</h2>
+                <p class="subtitle-desc">desenvolvido por: GssLikes Free Fire</p>
+
+                <p style="color: var(--text-primary); font-weight: 600; margin-bottom: 15px; font-size: 14px;">
+                    Selecione a quantidade de Likes e logo em seguida envie o seu ID conforme o seu perfil oficial.
+                </p>
+
+                <div class="warning-box">
+                    <i class="fa-solid fa-shield-halved" style="color: var(--accent);"></i> <strong>Aviso importante:</strong> não é necessário compartilhar seus dados confidenciais sobre a sua conta do jogo.
+                </div>
+
+                <h3 style="font-size: 16px; margin-bottom: 15px; color: var(--accent);">Confira nossos pacotes disponíveis em nosso site:</h3>
+
+                <div class="packages-grid">
+                    <div class="package-item">
+                        <span>100 LIKES</span> <strong>R$ 5,00</strong> (entrega no mesmo dia)
+                    </div>
+                    <div class="package-item">
+                        <span>200 + 200 cortesia LIKES</span> <strong>R$ 10,00</strong> (entrega no mesmo dia)
+                    </div>
+                    <div class="package-item">
+                        <span>600 + 600 cortesia LIKES</span> <strong>R$ 20,00</strong> (entrega 200 por dia)
+                    </div>
+                    <div class="package-item">
+                        <span>1.000 + 600 cortesia LIKES</span> <strong>R$ 30,00</strong> (entrega 200 por dia)
+                    </div>
+                    <div class="package-item">
+                        <span>3.000 + 600 cortesia LIKES</span> <strong>R$ 50,00</strong> (entrega 200 por dia)
+                    </div>
+                </div>
+
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; text-align: center;">
+                    💡 FAQ e informações gerais em nosso menu.
+                </p>
+
+                <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 25px 0;">
+
+                <h3 style="font-size: 16px; margin-bottom: 15px; color: var(--accent);"><i class="fa-solid fa-cart-shopping"></i> Solicitar / Adquirir Pacote</h3>
+
+                <div class="form-group">
+                    <label for="ffPackageSelect">Selecione o Pacote:</label>
+                    <select id="ffPackageSelect" class="form-select">
+                        <option value="100 LIKES - R$ 5,00">100 LIKES - R$ 5,00 (Entrega no mesmo dia)</option>
+                        <option value="200 + 200 cortesia LIKES - R$ 10,00">200 + 200 cortesia LIKES - R$ 10,00 (Entrega no mesmo dia)</option>
+                        <option value="600 + 600 cortesia LIKES - R$ 20,00">600 + 600 cortesia LIKES - R$ 20,00 (Entrega 200 por dia)</option>
+                        <option value="1.000 + 600 cortesia LIKES - R$ 30,00">1.000 + 600 cortesia LIKES - R$ 30,00 (Entrega 200 por dia)</option>
+                        <option value="3.000 + 600 cortesia LIKES - R$ 50,00">3.000 + 600 cortesia LIKES - R$ 50,00 (Entrega 200 por dia)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ffNick">Nick no Jogo:</label>
+                    <input type="text" id="ffNick" class="form-input" placeholder="Digite seu Nick exato...">
+                </div>
+
+                <div class="form-group">
+                    <label for="ffId">ID do Perfil Oficial:</label>
+                    <input type="text" id="ffId" class="form-input" placeholder="Digite seu ID do Free Fire...">
+                </div>
+
+                <div class="form-group">
+                    <label for="ffCupom">Cupom de indicação (Ex: GSSMAX-135790):</label>
+                    <input type="text" id="ffCupom" class="form-input" placeholder="Digite seu código de cupom (se tiver)...">
+                </div>
+
+                <div class="warning-box" style="margin-top: 10px;">
+                    ⚠️ <strong>Aviso importante:</strong> caso tiver código de cupom com descontos preencha e envie direto para nosso time.
+                </div>
+
+                <button class="cta-btn" id="solicitarLikesBtn" style="width: 100%; margin-top: 15px; font-size: 14px; padding: 14px;">
+                    <i class="fa-brands fa-whatsapp"></i> Solicitar Likes via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA LIMPA: ARQUIVOS BASE FREE (Nova Lógica: Solicitação Direta via WhatsApp) -->
+    <div id="freeFilesPage" class="free-files-page">
+        <div class="container">
+            <div class="free-files-container">
+                <button id="backToMainSite" class="anon-btn" style="margin-bottom: 15px;"><i class="fa-solid fa-arrow-left"></i> <span data-i18n="back_home">Voltar ao Início</span></button>
+                <h2 data-i18n="free_files_title">Arquivos Base Free</h2>
+                <p data-i18n="free_files_desc">Selecione a categoria desejada abaixo, informe seus dados e solicite o acesso diretamente com o nosso suporte oficial.</p>
+                
+                <h3 style="font-size: 16px; margin-top: 20px; margin-bottom: 12px; color: var(--accent);" data-i18n="select_category">Selecione a categoria:</h3>
+                
+                <div class="base-options-box">
+                    <div class="base-option-item" data-id="ID26">
+                        <span>Base Discord Bot (base)</span> <span style="color: var(--accent);">ID26</span>
+                    </div>
+                    <div class="base-option-item" data-id="IDWPP26">
+                        <span>Base WhatsApp (BASE)</span> <span style="color: var(--accent);">IDWPP26</span>
+                    </div>
+                    <div class="base-option-item" data-id="IDT26">
+                        <span>Base Telegram Bot (BASE)</span> <span style="color: var(--accent);">IDT26</span>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 15px;">
+                    <label for="inputClientName" data-i18n="your_name">Seu Nome</label>
+                    <input type="text" id="inputClientName" class="form-input" data-i18n-placeholder="your_name_placeholder" placeholder="Digite seu nome...">
+                </div>
+
+                <div class="form-group">
+                    <label for="inputProjectId" data-i18n="linked_category">Categoria / ID Selecionado:</label>
+                    <input type="text" id="inputProjectId" class="form-input" data-i18n-placeholder="select_cat_placeholder" placeholder="Selecione uma categoria acima" readonly>
+                </div>
+
+                <button class="cta-btn" id="requestBaseWhatsAppBtn" style="width: 100%; margin-top: 10px; font-size: 14px; padding: 14px; background-color: var(--whatsapp-color);">
+                    <i class="fa-brands fa-whatsapp"></i> Solicitar Acesso à Base via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-content">
+            <button class="menu-toggle-btn" id="openSidebarBottom" style="margin-bottom: 8px;">
+                <i class="fa-solid fa-bars"></i> <span data-i18n="open_sidebar_bottom">Abrir Menu Lateral / Perfil</span>
+            </button>
+            <p>&copy; 2026 MarcaPro. <span data-i18n="rights_reserved">Todos os direitos reservados.</span></p>
+            <p style="font-size: 11px; color: #94A3B8;" data-i18n="disclaimer">Este site não faz parte do Facebook ou Google. Termos de Uso | Políticas de Privacidade</p>
+        </div>
+    </footer>
+
+    <!-- Música de Fundo em Loop Infinito -->
+    <audio id="backgroundMusic" src="https://files.catbox.moe/xvxocm" loop preload="auto"></audio>
+
+    <!-- SCRIPTS DE TRADUÇÃO MULTILÍNGUE GLOBAL, FIREBASE E TICKET DE SUPORTE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, updateDoc, doc, query, where, serverTimestamp, onSnapshot, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyADlv7CYo5TTRA99PzRmB2jmk0i6Q2X2K4",
+            authDomain: "gssmax-projet.firebaseapp.com",
+            projectId: "gssmax-projet",
+            storageBucket: "gssmax-projet.firebasestorage.app",
+            messagingSenderId: "317306173103",
+            appId: "1:317306173103:web:c5d9506a2dce30d6d6865a",
+            measurementId: "G-MZ4KCWKZKV"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        // --- SISTEMA RÍGIDO ANTI-CÓPIA (JAVASCRIPT) ---
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (
+                e.key === 'F12' || 
+                (e.ctrlKey && (e.key === 'c' || e.key === 'C' || e.key === 'x' || e.key === 'X' || e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S' || e.key === 'a' || e.key === 'A')) ||
+                (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I' || e.key === 'j' || e.key === 'J' || e.key === 'c' || e.key === 'C'))
+            ) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // --- AUTENTICAÇÃO COM GOOGLE ---
+        const headerGoogleLoginBtn = document.getElementById('headerGoogleLoginBtn');
+        const headerLoginText = document.getElementById('headerLoginText');
+        const sidebarAuthContainer = document.getElementById('sidebarAuthContainer');
+
+        async function handleGoogleLogin() {
+            try {
+                const result = await signInWithPopup(auth, googleProvider);
+                const user = result.user;
+                alert(`✅ Login efetuado com sucesso, ${user.displayName}!`);
+            } catch (error) {
+                console.error("Erro no login com Google:", error);
+                alert("Erro ao realizar login com o Google. Tente novamente.");
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                await signOut(auth);
+                alert("Sessão encerrada com sucesso.");
+            } catch (error) {
+                console.error("Erro ao sair:", error);
+            }
+        }
+
+        headerGoogleLoginBtn.addEventListener('click', () => {
+            if (auth.currentUser) {
+                handleLogout();
+            } else {
+                handleGoogleLogin();
+            }
+        });
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                headerLoginText.textContent = user.displayName ? user.displayName.split(' ')[0] : 'Conta';
+                
+                sidebarAuthContainer.innerHTML = `
+                    <div class="sidebar-profile-box">
+                        <img src="${user.photoURL || 'https://via.placeholder.com/40'}" alt="Avatar" class="sidebar-profile-avatar">
+                        <div class="sidebar-profile-info" style="flex: 1; min-width: 0;">
+                            <h4>${user.displayName || 'Usuário'}</h4>
+                            <p>${user.email || ''}</p>
+                        </div>
+                        <button id="sidebarLogoutBtn" style="background:none; border:none; color:#ff4444; cursor:pointer; font-size:16px;" title="Sair da Conta"><i class="fa-solid fa-right-from-bracket"></i></button>
+                    </div>
+                `;
+
+                document.getElementById('sidebarLogoutBtn').addEventListener('click', handleLogout);
+
+                const clientNameInput = document.getElementById('clientName');
+                if (clientNameInput && !clientNameInput.value) {
+                    clientNameInput.value = user.displayName;
+                }
+
+                const ticketClientName = document.getElementById('ticketClientName');
+                if (ticketClientName && !ticketClientName.value) {
+                    ticketClientName.value = user.displayName;
+                }
+
+                const inputClientName = document.getElementById('inputClientName');
+                if (inputClientName && !inputClientName.value) {
+                    inputClientName.value = user.displayName;
+                }
+            } else {
+                headerLoginText.textContent = 'Entrar';
+                sidebarAuthContainer.innerHTML = `
+                    <button class="google-login-sidebar-btn" id="sidebarGoogleLoginBtn">
+                        <i class="fa-brands fa-google"></i> Entrar com o Google
+                    </button>
+                `;
+                document.getElementById('sidebarGoogleLoginBtn').addEventListener('click', handleGoogleLogin);
+            }
+        });
+
+        // --- SISTEMA DE TICKETS DE SUPORTE EM TEMPO REAL ---
+        let deviceId = localStorage.getItem('gssmax_device_uuid');
+        if (!deviceId) {
+            deviceId = 'dev_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+            localStorage.setItem('gssmax_device_uuid', deviceId);
+        }
+
+        const whatsappToggle = document.getElementById('whatsappToggle');
+        const chatBox = document.getElementById('chatBox');
+        const chatMessagesBody = document.getElementById('chatMessagesBody');
+        const sendTicketBtn = document.getElementById('sendTicketBtn');
+        let currentTicketId = localStorage.getItem('gssmax_active_ticket_id') || null;
+
+        whatsappToggle.addEventListener('click', () => {
+            chatBox.style.display = (chatBox.style.display === 'flex') ? 'none' : 'flex';
+        });
+
+        sendTicketBtn.addEventListener('click', async () => {
+            const name = document.getElementById('ticketClientName').value.trim();
+            const msg = document.getElementById('ticketClientMsg').value.trim();
+
+            if (!name || !msg) {
+                alert('Por favor, preencha seu nome e a mensagem.');
+                return;
+            }
+
+            sendTicketBtn.textContent = "Enviando Ticket...";
+
+            try {
+                const docRef = await addDoc(collection(db, 'tickets'), {
+                    deviceId: deviceId,
+                    nome: name,
+                    mensagem: msg,
+                    respostaAdm: "",
+                    status: "Aberto",
+                    criadoEm: serverTimestamp()
+                });
+
+                currentTicketId = docRef.id;
+                localStorage.setItem('gssmax_active_ticket_id', currentTicketId);
+
+                document.getElementById('ticketClientMsg').value = '';
+                alert('✅ Ticket enviado com sucesso! Aguarde a resposta do Faelzin.');
+                listenToTicket(currentTicketId);
+            } catch (error) {
+                console.error("Erro ao enviar ticket:", error);
+                alert("Erro ao enviar ticket.");
+            } finally {
+                sendTicketBtn.textContent = "Abrir Ticket de Suporte";
+            }
+        });
+
+        function listenToTicket(ticketId) {
+            onSnapshot(doc(db, 'tickets', ticketId), (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    chatMessagesBody.innerHTML = `
+                        <div class="chat-message"><strong>Você:</strong> ${data.mensagem}</div>
+                    `;
+                    if (data.respostaAdm) {
+                        chatMessagesBody.innerHTML += `
+                            <div class="chat-message" style="border-left-color: var(--accent); background: rgba(0,102,255,0.05);"><strong>Faelzin (ADM):</strong> ${data.respostaAdm}</div>
+                        `;
+                    } else {
+                        chatMessagesBody.innerHTML += `
+                            <div style="font-size: 11px; color: var(--text-secondary); text-align: center; margin-top: 5px;">⏳ Aguardando resposta do painel ADM...</div>
+                        `;
+                    }
+                }
+            });
+        }
+
+        if (currentTicketId) {
+            listenToTicket(currentTicketId);
+        }
+
+        // --- DICIONÁRIO DE TRADUÇÃO GLOBAL PARA OS 15 IDIOMAS ---
+        const translations = {
+            pt: {
+                page_title: "Método Exclusivo | Acelere Seus Resultados",
+                cart_title: "Seu Carrinho",
+                cart_empty: "Seu carrinho está vazio.",
+                cart_total: "Total:",
+                checkout_btn: "Finalizar Compra",
+                search_placeholder: "Pesquisar produtos...",
+                sidebar_title: "Menu Rápido",
+                menu_my_downloads: "Meus Downloads",
+                menu_support: "Suporte",
+                menu_my_key: "Minha Key",
+                menu_adm: "Painel ADM",
+                menu_music_site: "Music Site",
+                music_play: "Produzir / Tocar Música",
+                music_stop: "Parar Música",
+                key_modal_title: "Gerenciamento de Keys",
+                close_btn: "Fechar",
+                chat_online: "Online • Resposta Direta",
+                chat_welcome: "Olá! 👋 Abra seu ticket de suporte abaixo. O Faelzin responderá diretamente por aqui em tempo real!",
+                hero_badge: "O Método Definitivo",
+                hero_title: "Transforme Sua Presença Digital e <span>Multiplique Suas Vendas</span>",
+                hero_desc: "Descubra o sistema passo a passo testado e aprovado para escalar seus lucros na internet.",
+                hero_cta: "Quero Acessar o Método Agora",
+                plans_title: "Alugue nosso Bot também disponível nessas plataformas",
+                marquee_sites: "Criação de sites",
+                guarantee_text: "Garantia incondicional de 7 dias ou seu dinheiro de volta.",
+                features_title: "Por que este método funciona?",
+                features_subtitle: "Tudo o que você precisa para alcançar o próximo nível sem enrolação.",
+                feat_1_title: "Resultados Rápidos",
+                feat_1_desc: "Focado em estratégias de implementação imediata para gerar caixa logo nas primeiras semanas.",
+                feat_2_title: "Escala Escalável",
+                feat_2_desc: "Estrutura sólida feita para crescer de forma sustentável.",
+                feat_3_title: "Zero Complexidade",
+                feat_3_desc: "Linguagem simples, direta ao ponto e sem termos técnicos.",
+                testimonials_title: "O que dizem nossos alunos",
+                testimonials_subtitle: "Histórias reais de pessoas que aplicaram o método.",
+                test_1: "\"Simplesmente mudou o rumo da minha empresa.\"",
+                test_2: "\"O suporte é incrível e o conteúdo é super direto ao ponto.\"",
+                test_3: "\"Hoje consigo faturar todos os dias de forma consistente.\"",
+                client_role_1: "Empresário",
+                client_role_2: "Empreendedora Digital",
+                client_role_3: "Autônomo",
+                offer_section_title: "Garanta Seu Acesso Completo",
+                offer_section_subtitle: "Dê o primeiro passo rumo à sua transformação profissional.",
+                offer_badge: "Condição Especial",
+                offer_old_price: "De R$ 997,00 por apenas",
+                offer_cash: "à vista",
+                offer_li_1: "Acesso completo e vitalício ao método",
+                offer_li_2: "Bônus 1: Guia Avançado de Escala",
+                offer_li_3: "Bônus 2: Planilhas e Ferramentas Prontas",
+                offer_li_4: "Suporte exclusivo para dúvidas",
+                add_to_cart_btn: "ADICIONAR AO CARRINHO",
+                secure_payment: "Pagamento 100% seguro • Acesso imediato",
+                faq_title: "Dúvidas Frequentes",
+                faq_subtitle: "Tudo o que você precisa saber antes de tomar sua decisão.",
+                faq_q1: "Como terei acesso ao material?",
+                faq_a1: "Você receberá os dados de acesso diretamente no seu e-mail.",
+                faq_q2: "E se eu não gostar do conteúdo?",
+                faq_a2: "Você tem uma garantia incondicional de 7 dias.",
+                faq_q3: "Preciso de experiência anterior?",
+                faq_a3: "Não! O método foi desenhado para pegar você pela mão.",
+                reviews_title: "Deixe sua Avaliação",
+                reviews_subtitle: "Sua opinião é fundamental para melhorarmos continuamente.",
+                review_name_label: "Nome do cliente",
+                review_name_placeholder: "Digite seu nome...",
+                review_comment_label: "Envie sua avaliação aqui",
+                review_comment_placeholder: "O que você achou do método?",
+                review_rating_label: "Classificação (0 a 5 estrelas)",
+                review_submit_btn: "Enviar Avaliação",
+                recent_reviews_title: "Avaliações Recentes",
+                loading_reviews: "Aguardando novas avaliações...",
+                back_home: "Voltar ao Início",
+                free_files_title: "Arquivos Base Free",
+                free_files_desc: "Selecione a categoria desejada abaixo, informe seus dados e solicite o acesso diretamente com o nosso suporte oficial.",
+                select_category: "Selecione a categoria:",
+                your_name: "Seu Nome",
+                your_name_placeholder: "Digite seu nome...",
+                linked_category: "Categoria / ID Selecionado:",
+                select_cat_placeholder: "Selecione uma categoria acima",
+                open_sidebar_bottom: "Abrir Menu Lateral / Perfil",
+                rights_reserved: "Todos os direitos reservados.",
+                disclaimer: "Este site não faz parte do Facebook ou Google."
+            }
+        };
+
+        const languageSelector = document.getElementById('languageSelector');
+
+        function setLanguage(lang) {
+            const t = translations[lang] || translations['pt'];
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t && t[key]) {
+                    el.innerHTML = t[key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (t && t[key]) {
+                    el.placeholder = t[key];
+                }
+            });
+
+            localStorage.setItem('gssmax_lang', lang);
+        }
+
+        languageSelector.addEventListener('change', (e) => {
+            setLanguage(e.target.value);
+        });
+
+        const savedLang = localStorage.getItem('gssmax_lang') || 'pt';
+        languageSelector.value = savedLang;
+        setLanguage(savedLang);
+
+        // --- Menu Lateral de Música & Scroll Autoplay ---
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const toggleMusicMenuSidebar = document.getElementById('toggleMusicMenuSidebar');
+        const sidebarMusicSubmenu = document.getElementById('sidebarMusicSubmenu');
+        const musicMenuArrow = document.getElementById('musicMenuArrow');
+        const playMusicOption = document.getElementById('playMusicOption');
+        const stopMusicOption = document.getElementById('stopMusicOption');
+        let userPausedMusic = false;
+
+        toggleMusicMenuSidebar.addEventListener('click', (e) => {
+            e.preventDefault();
+            sidebarMusicSubmenu.classList.toggle('active');
+            musicMenuArrow.style.transform = sidebarMusicSubmenu.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+        });
+
+        playMusicOption.addEventListener('click', () => {
+            backgroundMusic.play().then(() => {
+                userPausedMusic = false;
+                alert('🎵 Música reproduzindo com sucesso!');
+            }).catch(e => console.log("Erro ao reproduzir áudio:", e));
+        });
+
+        stopMusicOption.addEventListener('click', () => {
+            backgroundMusic.pause();
+            userPausedMusic = true;
+            alert('⏸️ Música pausada.');
+        });
+
+        window.addEventListener('scroll', () => {
+            if (backgroundMusic.paused && !userPausedMusic) {
+                backgroundMusic.play().then(() => {}).catch(e => console.log("Autoplay bloqueado."));
+            }
+        }, { once: true });
+
+        document.addEventListener('click', function() {
+            if (backgroundMusic.paused && !userPausedMusic) {
+                backgroundMusic.play().then(() => {}).catch(e => console.log("Áudio aguardando interação."));
+            }
+        }, { once: true });
+
+        // --- SISTEMA DE ALERTAS EM LOOP INFINITO (CANTO INFERIOR ESQUERDO) ---
+        const liveAlertsContainer = document.getElementById('liveAlertsContainer');
+        let realReviewsCache = [];
+        let alertIndex = 0;
+
+        onSnapshot(query(collection(db, 'avaliacoes'), orderBy('criadoEm', 'desc')), (snapshot) => {
+            realReviewsCache = [];
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                if (data.nome && data.comentario) {
+                    realReviewsCache.push({
+                        nome: data.nome,
+                        comentario: data.comentario,
+                        estrelas: data.estrelas || 5
+                    });
+                }
+            });
+        });
+
+        const fallbackReviews = [
+            { nome: "Carlos Ramos", comentario: "Simplesmente mudou o rumo da minha empresa!", estrelas: 5 },
+            { nome: "Juliana Souza", comentario: "O suporte é incrível e super direto ao ponto.", estrelas: 5 },
+            { nome: "Marcos Costa", comentario: "Consigo faturar todos os dias de forma consistente.", estrelas: 5 },
+            { nome: "Ana Beatriz", comentario: "Melhor investimento que fiz este ano!", estrelas: 5 }
+        ];
+
+        function showNextAlert() {
+            let listToUse = realReviewsCache.length > 0 ? realReviewsCache : fallbackReviews;
+            if (listToUse.length === 0) return;
+
+            const review = listToUse[alertIndex % listToUse.length];
+            alertIndex++;
+
+            liveAlertsContainer.innerHTML = '';
+
+            const alertCard = document.createElement('div');
+            alertCard.className = 'live-alert-card';
+            
+            let starsHTML = '';
+            for(let i=0; i<review.estrelas; i++) starsHTML += '<i class="fa-solid fa-star" style="color: #F59E0B; font-size: 9px;"></i>';
+
+            alertCard.innerHTML = `
+                <div class="live-alert-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <div class="live-alert-content" style="flex: 1; min-width: 0;">
+                    <h5>${review.nome} <span>Novo</span></h5>
+                    <div style="margin-bottom: 1px;">${starsHTML}</div>
+                    <p>"${review.comentario}"</p>
+                </div>
+            `;
+
+            liveAlertsContainer.appendChild(alertCard);
+
+            setTimeout(() => {
+                alertCard.style.opacity = '0';
+                alertCard.style.transform = 'translateX(-30px)';
+                setTimeout(() => {
+                    alertCard.remove();
+                }, 400);
+            }, 4000);
+        }
+
+        setInterval(showNextAlert, 6000);
+        setTimeout(showNextAlert, 1500);
+
+        // --- Lógica do Carrinho de Compras ---
+        let cart = [];
+        const openCartBtn = document.getElementById('openCartBtn');
+        const closeCartBtn = document.getElementById('closeCartBtn');
+        const cartDrawer = document.getElementById('cartDrawer');
+        const cartDrawerOverlay = document.getElementById('cartDrawerOverlay');
+        const cartCount = document.getElementById('cartCount');
+        const cartItemsList = document.getElementById('cartItemsList');
+        const cartTotalPrice = document.getElementById('cartTotalPrice');
+        const checkoutCartBtn = document.getElementById('checkoutCartBtn');
+
+        function toggleCart() {
+            cartDrawer.classList.toggle('active');
+            cartDrawerOverlay.classList.toggle('active');
+        }
+
+        openCartBtn.addEventListener('click', toggleCart);
+        closeCartBtn.addEventListener('click', toggleCart);
+        cartDrawerOverlay.addEventListener('click', toggleCart);
+
+        function updateCartUI() {
+            cartCount.textContent = cart.length;
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = `<p style="color: var(--text-secondary); text-align: center; font-size: 13px; margin-top: 20px;">Seu carrinho está vazio.</p>`;
+                cartTotalPrice.textContent = "R$ 0,00";
+                return;
+            }
+
+            cartItemsList.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `
+                    <div>
+                        <strong style="font-size: 13px; display: block; color: var(--text-primary);">${item.name}</strong>
+                        <span style="font-size: 12px; color: var(--accent);">R$ ${item.price.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <button onclick="window.removeFromCart(${index})" style="background:none; border:none; color:#ff4444; cursor:pointer; font-size:14px;"><i class="fa-solid fa-trash"></i></button>
+                `;
+                cartItemsList.appendChild(div);
+            });
+            cartTotalPrice.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        window.removeFromCart = function(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const name = btn.getAttribute('data-name');
+                const price = parseFloat(btn.getAttribute('data-price'));
+                cart.push({ name, price });
+                updateCartUI();
+                toggleCart();
+            });
+        });
+
+        checkoutCartBtn.addEventListener('click', () => {
+            if (cart.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+            let text = "Olá! Quero finalizar a compra dos seguintes itens do carrinho:\n";
+            let total = 0;
+            cart.forEach(item => {
+                text += `- ${item.name} (R$ ${item.price.toFixed(2).replace('.', ',')})\n`;
+                total += item.price;
+            });
+            text += `\nTotal: R$ ${total.toFixed(2).replace('.', ',')}`;
+            window.open(`https://wa.me/555193767174?text=${encodeURIComponent(text)}`, '_blank');
+        });
+
+        // --- SISTEMA DE ESTRELAS INTERATIVO ---
+        const stars = document.querySelectorAll('#starContainer .star');
+        const ratingInput = document.getElementById('selectedRating');
+
+        stars.forEach((star) => {
+            star.addEventListener('click', () => {
+                const val = star.getAttribute('data-value');
+                ratingInput.value = val;
+                stars.forEach((s, i) => {
+                    if (i < val) {
+                        s.classList.add('selected');
+                    } else {
+                        s.classList.remove('selected');
+                    }
+                });
+            });
+        });
+
+        // --- ENVIAR AVALIAÇÃO PARA O FIRESTORE ---
+        const reviewForm = document.getElementById('reviewForm');
+        reviewForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('clientName').value;
+            const comment = document.getElementById('clientComment').value;
+            const rating = parseInt(ratingInput.value);
+
+            try {
+                await addDoc(collection(db, 'avaliacoes'), {
+                    nome: name,
+                    comentario: comment,
+                    estrelas: rating,
+                    criadoEm: serverTimestamp()
+                });
+                reviewForm.reset();
+                ratingInput.value = "5";
+                stars.forEach((s) => s.classList.add('selected'));
+                alert('Avaliação enviada com sucesso!');
+            } catch (error) {
+                console.error("Erro ao enviar avaliação: ", error);
+                alert("Erro ao enviar avaliação.");
+            }
+        });
+
+        // --- OUVIR AVALIAÇÕES EM TEMPO REAL ---
+        const reviewsGrid = document.getElementById('reviewsGrid');
+        onSnapshot(query(collection(db, 'avaliacoes'), orderBy('criadoEm', 'desc')), (snapshot) => {
+            reviewsGrid.innerHTML = '';
+            if (snapshot.empty) {
+                reviewsGrid.innerHTML = `<div class="loading-container"><div class="loading-text">Nenhuma avaliação recente.</div></div>`;
+                return;
+            }
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                const starsCount = data.estrelas || 5;
+                let starsHTML = '';
+                for (let i = 0; i < 5; i++) {
+                    starsHTML += i < starsCount ? '<i class="fa-solid fa-star" style="color: #F59E0B;"></i>' : '<i class="fa-regular fa-star" style="color: #CBD5E1;"></i>';
+                }
+                const card = document.createElement('div');
+                card.className = 'dynamic-review-card';
+                card.innerHTML = `
+                    <div class="stars">${starsHTML}</div>
+                    <p>"${data.comentario || ''}"</p>
+                    <div class="client-info">
+                        <div class="client-avatar">${(data.nome || 'Cliente').substring(0, 2).toUpperCase()}</div>
+                        <div class="client-details">
+                            <h4>${data.nome || 'Anônimo'}</h4>
+                            <p>Cliente Verificado</p>
+                        </div>
+                    </div>
+                `;
+                reviewsGrid.appendChild(card);
+            });
+        });
+
+        // --- CONTROLE DA SIDEBAR E PÁGINAS ---
+        const sidebar = document.getElementById('rightSidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const openTop = document.getElementById('openSidebarTop');
+        const openBottom = document.getElementById('openSidebarBottom');
+        const closeBtn = document.getElementById('closeSidebar');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        openTop.addEventListener('click', toggleSidebar);
+        if(openBottom) openBottom.addEventListener('click', toggleSidebar);
+        closeBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+
+        const freeFilesPage = document.getElementById('freeFilesPage');
+        const likesFFPage = document.getElementById('likesFFPage');
+        const mainElements = document.querySelectorAll('header, .top-search-section, .hero, .available-plans-section, .features, .testimonials, .offer, .faq, .live-reviews-section, footer');
+
+        function hideAllPages() {
+            mainElements.forEach(el => el.style.display = 'none');
+            freeFilesPage.style.display = 'none';
+            likesFFPage.style.display = 'none';
+        }
+
+        document.getElementById('openLikesFFBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleSidebar();
+            hideAllPages();
+            likesFFPage.style.display = 'block';
+            window.scrollTo(0, 0);
+        });
+
+        document.getElementById('openMyDownloadsBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleSidebar();
+            hideAllPages();
+            freeFilesPage.style.display = 'block';
+            window.scrollTo(0, 0);
+        });
+
+        document.getElementById('backToMainSite').addEventListener('click', (e) => {
+            e.preventDefault();
+            freeFilesPage.style.display = 'none';
+            mainElements.forEach(el => el.style.display = '');
+        });
+
+        document.getElementById('backToMainFromLikes').addEventListener('click', (e) => {
+            e.preventDefault();
+            likesFFPage.style.display = 'none';
+            mainElements.forEach(el => el.style.display = '');
+        });
+
+        // --- LÓGICA DE SOLICITAÇÃO DE LIKES FF VIA WHATSAPP ---
+        const solicitarLikesBtn = document.getElementById('solicitarLikesBtn');
+        if(solicitarLikesBtn) {
+            solicitarLikesBtn.addEventListener('click', () => {
+                const pacote = document.getElementById('ffPackageSelect').value;
+                const nick = document.getElementById('ffNick').value.trim();
+                const idJogo = document.getElementById('ffId').value.trim();
+                const cupom = document.getElementById('ffCupom').value.trim();
+
+                if (!nick || !idJogo) {
+                    alert('Por favor, preencha o seu Nick e o ID do Free Fire.');
+                    return;
+                }
+
+                let msg = `Olá, Fael! Vim pelo site GssLikes Free Fire e quero solicitar um pacote de Likes.\n\n`;
+                msg += `📦 *Pacote:* ${pacote}\n`;
+                msg += `👤 *Nick:* ${nick}\n`;
+                msg += `🆔 *ID:* ${idJogo}\n`;
+                if (cupom) {
+                    msg += `🎟️ *Cupom de Indicação:* ${cupom}\n`;
+                }
+                msg += `\nAguardando instruções de pagamento e entrega!`;
+
+                const whatsappUrl = `https://wa.me/555193767174?text=${encodeURIComponent(msg)}`;
+                window.open(whatsappUrl, '_blank');
+            });
+        }
+
+        // --- MODAL "MINHA KEY" (Nova Lógica de Direcionamento Direto) ---
+        const openMyKeyBtn = document.getElementById('openMyKeyBtn');
+        const myKeyModalOverlay = document.getElementById('myKeyModalOverlay');
+        const closeMyKeyModal = document.getElementById('closeMyKeyModal');
+        const closeMyKeyBtn = document.getElementById('closeMyKeyBtn');
+        const modalWhatsAppKeyBtn = document.getElementById('modalWhatsAppKeyBtn');
+
+        openMyKeyBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            myKeyModalOverlay.style.display = 'flex';
+        });
+
+        closeMyKeyModal.addEventListener('click', () => { myKeyModalOverlay.style.display = 'none'; });
+        closeMyKeyBtn.addEventListener('click', () => { myKeyModalOverlay.style.display = 'none'; });
+
+        modalWhatsAppKeyBtn.addEventListener('click', () => {
+            const msg = `Olá, Fael! Gostaria de verificar ou solicitar minha Key de acesso no site.`;
+            window.open(`https://wa.me/555193767174?text=${encodeURIComponent(msg)}`, '_blank');
+        });
+
+        // --- PESQUISA DE PRODUTOS ---
+        const products = [
+            { name: "Método Completo - Acelere Seus Resultados", link: "#oferta" },
+            { name: "Guia Avançado de Escala", link: "#oferta" },
+            { name: "Planilhas e Ferramentas Prontas", link: "#oferta" }
+        ];
+
+        const searchInput = document.getElementById('productSearch');
+        const searchResults = document.getElementById('searchResults');
+
+        searchInput.addEventListener('input', function() {
+            const queryVal = this.value.toLowerCase().trim();
+            searchResults.innerHTML = '';
+            if (queryVal.length === 0) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            const filtered = products.filter(p => p.name.toLowerCase().includes(queryVal));
+            if (filtered.length > 0) {
+                filtered.forEach(item => {
+                    const a = document.createElement('a');
+                    a.href = item.link;
+                    a.className = 'search-result-item';
+                    a.textContent = item.name;
+                    a.addEventListener('click', () => {
+                        searchResults.style.display = 'none';
+                        searchInput.value = '';
+                    });
+                    searchResults.appendChild(a);
+                });
+                searchResults.style.display = 'block';
+            } else {
+                const div = document.createElement('div');
+                div.className = 'search-result-item';
+                div.textContent = 'Nenhum produto encontrado';
+                searchResults.appendChild(div);
+                searchResults.style.display = 'block';
+            }
+        });
+
+        // --- LÓGICA DA PÁGINA ARQUIVOS BASE FREE (Nova Lógica Direta) ---
+        const baseItems = document.querySelectorAll('.base-option-item');
+        const inputProjectId = document.getElementById('inputProjectId');
+
+        baseItems.forEach(item => {
+            item.addEventListener('click', () => {
+                baseItems.forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+                inputProjectId.value = item.getAttribute('data-id');
+            });
+        });
+
+        const requestBaseWhatsAppBtn = document.getElementById('requestBaseWhatsAppBtn');
+        const inputClientName = document.getElementById('inputClientName');
+
+        if(requestBaseWhatsAppBtn) {
+            requestBaseWhatsAppBtn.addEventListener('click', () => {
+                const clientNameVal = inputClientName.value.trim() || 'Cliente';
+                const projectVal = inputProjectId.value.trim();
+
+                if (!projectVal) {
+                    alert('Por favor, selecione uma categoria/projeto acima.');
+                    return;
+                }
+
+                const msg = `Olá, Fael! Vim pelo site e quero solicitar acesso à categoria de Arquivos Base: ${projectVal}. Meu nome é ${clientNameVal}.`;
+                const whatsappUrl = `https://wa.me/555193767174?text=${encodeURIComponent(msg)}`;
+                window.open(whatsappUrl, '_blank');
+            });
+        }
+    </script>
+
+</body>
+</html>
