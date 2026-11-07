@@ -1,0 +1,13 @@
+{
+  "name": "loja-mercadopago-pix",
+  "version": "1.0.0",
+  "description": "Loja Pix com QR Code Base64 na Vercel",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mercadopago": "^2.0.9"
+  }
+}
