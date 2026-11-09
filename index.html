@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSS GERADOR DE SENSIBILIDADE FREE FIRE</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --card-bg: #f8f9fa;
+            --card-border: #e9ecef;
+            --primary: #f39c12;
+            --primary-hover: #d35400;
+            --accent: #007bff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --success: #28a745;
+            --google-red: #ea4335;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-x: hidden;
+        }
+
+        /* --- MENU LATERAL DO LADO DIREITO --- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100%;
+            background-color: #ffffff;
+            border-left: 1px solid var(--card-border);
+            z-index: 1000;
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .sidebar-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .close-sidebar {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-sidebar:hover {
+            color: var(--text-main);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 0;
+            flex: 1;
+        }
+
+        .sidebar-menu li {
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-right: 3px solid transparent;
+        }
+
+        .sidebar-menu li:hover {
+            background: rgba(243, 156, 18, 0.08);
+            color: var(--text-main);
+            border-right-color: var(--primary);
+        }
+
+        .sidebar-menu li i {
+            font-size: 1.1rem;
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+
+        .sidebar-menu li.google-item i {
+            color: var(--google-red);
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Overlay Escuro */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(2px);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
+        /* --- HEADER & BOTÃO HAMBÚRGUER À DIREITA --- */
+        header {
+            text-align: center;
+            padding: 25px 20px 18px;
+            position: relative;
+            background: #ffffff;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .menu-toggle-btn {
+            position: absolute;
+            top: 22px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .menu-toggle-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding-right: 45px;
+            padding-left: 10px;
+        }
+
+        .logo-container h1 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .logo-container h1 span {
+            color: var(--primary);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-weight: 500;
+            margin-top: 8px;
+            letter-spacing: 0.2px;
+        }
+
+        /* --- ÁREA PRINCIPAL E ELEMENTOS --- */
+        main {
+            flex: 1;
+            max-width: 850px;
+            width: 100%;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        .card-custom {
+            background-color: var(--card-bg);
+            border: 1px dashed var(--card-border);
+            border-radius: 16px;
+            padding: 30px 20px;
+            margin-bottom: 25px;
+        }
+
+        .card-custom h3 {
+            font-size: 1.05rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* Informações e Termos */
+        .info-content {
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            margin-bottom: 25px;
+        }
+
+        .info-content p {
+            font-size: 0.9rem;
+            color: var(--text-main);
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .info-content ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .info-content li a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: text-decoration 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .info-content li a:hover {
+            text-decoration: underline;
+        }
+
+        .member-salutation {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Seção do Gerador e Campos de Sensibilidade */
+        .sens-form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sens-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .sens-input-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+            text-transform: uppercase;
+        }
+
+        .sens-input-group input {
+            padding: 12px 15px;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            background: #ffffff;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .sens-input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(243, 156, 18, 0.15);
+        }
+
+        /* Botões de Ação Final */
+        .action-buttons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .action-buttons-grid { grid-template-columns: 1fr; }
+        }
+
+        .btn-action {
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: transform 0.15s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-generate {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn-share {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-share:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+        }
+
+        /* --- ESTILOS DO CAPTCHA RIGOROSO DE 1 MINUTO --- */
+        .captcha-box {
+            background: #f9f9f9;
+            border: 1px solid #d3d3d3;
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 300px;
+            margin: 15px auto 20px auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .captcha-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .custom-checkbox {
+            width: 28px;
+            height: 28px;
+            background: #ffffff;
+            border: 2px solid #c1c1c1;
+            border-radius: 3px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .custom-checkbox:hover {
+            border-color: #4a90e2;
+        }
+
+        .custom-checkbox.checked {
+            background: #ffffff;
+            border-color: #4a90e2;
+            animation: bounce-check 0.3s ease;
+        }
+
+        .custom-checkbox i {
+            color: #28a745;
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        .custom-checkbox.checked i {
+            display: block;
+        }
+
+        @keyframes bounce-check {
+            0% { transform: scale(0.8); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .captcha-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #222;
+        }
+
+        .captcha-logo {
+            text-align: center;
+        }
+
+        .captcha-logo i {
+            font-size: 1.4rem;
+            color: #4285f4;
+        }
+
+        .captcha-logo span {
+            display: block;
+            font-size: 0.6rem;
+            color: #555;
+        }
+
+        .captcha-loader {
+            display: none;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        .captcha-spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #e9ecef;
+            border-top: 3px solid #4a90e2;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 8px auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Modais Gerais */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(3px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 25px;
+            width: 90%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .modal-box h3 {
+            font-size: 1.15rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+        }
+
+        .modal-box p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .modal-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--card-border);
+            background: #ffffff;
+        }
+
+        /* Toast */
+        #toast {
+            visibility: hidden;
+            min-width: 240px;
+            background-color: var(--success);
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: fixed;
+            z-index: 3000;
+            right: 20px;
+            bottom: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(50px);
+            transition: transform 0.3s, opacity 0.3s;
+            opacity: 0;
+        }
+
+        #toast.show {
+            visibility: visible;
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menu Lateral Direito -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="fecharMenu()"></div>
+    <div class="sidebar" id="mySidebar">
+        <div class="sidebar-header">
+            <button class="close-sidebar" onclick="fecharMenu()"><i class="fa-solid fa-xmark"></i></button>
+            <span class="sidebar-title">Menu GSS</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="google-item" onclick="entrarComGoogle()"><i class="fa-brands fa-google"></i> Entrar com Google</li>
+            <li onclick="abrirPerfil()"><i class="fa-solid fa-user-gear"></i> Perfil</li>
+            <li onclick="abrirCreditos()"><i class="fa-solid fa-coins"></i> Créditos Mensais: <strong id="creditos-sidebar" style="color:var(--primary); margin-left: 5px;">10</strong>/10</li>
+            <li onclick="abrirRecarregar()"><i class="fa-solid fa-bolt"></i> Recarregar / Renovar</li>
+        </ul>
+        <div class="sidebar-footer">
+            GSS Sensibilidade v4.3 &copy; 2026
+        </div>
+    </div>
+
+    <!-- Modal de Validação Humana Rigorosa (Obrigatória a Cada Geração) -->
+    <div class="modal-overlay" id="modalCaptcha">
+        <div class="modal-box">
+            <h3>Verificação de Segurança Obrigatória</h3>
+            <p>Necessário verificar se você não é um robô. Marque a caixinha logo abaixo:</p>
+            
+            <div class="captcha-box" id="captchaBoxContainer">
+                <div class="captcha-left">
+                    <div class="custom-checkbox" id="humanCheckbox" onclick="marcarCaixinhaHumana()">
+                        <i class="fa-solid fa-check" id="checkIcon"></i>
+                    </div>
+                    <span class="captcha-text">Não sou um robô</span>
+                </div>
+                <div class="captcha-logo">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>GSS-SECURE</span>
+                </div>
+            </div>
+
+            <!-- Loader de verificação de 1 minuto -->
+            <div class="captcha-loader" id="captchaLoader">
+                <div class="captcha-spinner"></div>
+                <span id="countdownText" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500; display: block; margin-top: 5px;">Verificando ambiente (01:00)...</span>
+            </div>
+
+            <button class="modal-btn" id="btnContinuarGerar" style="opacity: 0.5; pointer-events: none; margin-top: 5px;" onclick="concluirGeracaoAposCaptcha()">Aguardando verificação...</button>
+        </div>
+    </div>
+
+    <!-- Modais Padrão -->
+    <div class="modal-overlay" id="modalPerfil" onclick="fecharModais(event)">
+        <div class="modal-box">
+            <h3>Perfil do Membro</h3>
+            <p><strong>Usuário:</strong> <span id="modal-username">Visitante</span><br><strong>Email:</strong> <span id="modal-email">Não logado</span><br><strong>Plano:</strong> Máximo 10 Créditos / Mês (Blindado)</p>
+            <button class="modal-btn" onclick="fecharModaisDirect()">Fechar</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalCreditos" onclick="fecharModais(event)">
+        <div class="modal-box">
+            <h3>Créditos Mensais</h3>
+            <p>Você possui <strong id="creditos-modal" style="color:var(--primary);">10</strong> de 10 créditos seguros disponíveis neste mês.</p>
+            <button class="modal-btn" onclick="fecharModaisDirect()">Entendido</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalRecarregar" onclick="fecharModais(event)">
+        <div class="modal-box">
+            <h3>Renovação Mensal</h3>
+            <p>Seus créditos mensais (máximo de 10 por mês) são validados pelo servidor de segurança GSS!</p>
+            <button class="modal-btn" onclick="recarregarCreditosMensais()">Renovar Plano Mensal (10/10)</button>
+        </div>
+    </div>
+
+    <!-- Header Principal -->
+    <header>
+        <button class="menu-toggle-btn" onclick="abrirMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="logo-container">
+            <h1>GSS <span>GERADOR DE SENSIBILIDADE</span></h1>
+            <p>fala tropa seja bem vindo ao meu site oficial</p>
+        </div>
+    </header>
+
+    <!-- Área Principal -->
+    <main>
+        <div class="info-content">
+            <span class="member-salutation" id="memberSalutation">Salve, Visitante!</span>
+            <p>Seja bem vindo ao nosso gerador de sensibilidade , aqui você gera e compartilha com os seus amigos geral</p>
+            <p>Antes de gerar ou criar seus pack sensibilidade Free Fire é necessário criar uma conta email e senha ou entrar com conta Google. Leia nossos termos e políticas de privacidade antes de qualquer decisão!</p>
+            <ul>
+                <li><a href="#" onclick="abrirTermos(event)"><i class="fa-solid fa-file-contract"></i> Leia os (termos de uso e privacidade)</a></li>
+                <li><a href="#" onclick="abrirArtigo(event)"><i class="fa-solid fa-shield-halved"></i> Como coletamos os seus dados (clique para ler esse artigo)</a></li>
+            </ul>
+        </div>
+
+        <div class="card-custom">
+            <h3>Gere, crie pack sensibilidade e compartilhe com os seus amigos ou até mesmo venda seus próprios sensibilidade Free Fire.</h3>
+            
+            <div class="sens-form-container" style="margin-top: 20px;">
+                <div class="sens-input-group">
+                    <label>Geral</label>
+                    <input type="number" id="input-geral" placeholder="Ex: 95">
+                </div>
+                <div class="sens-input-group">
+                    <label>Ponto Vermelho</label>
+                    <input type="number" id="input-reddot" placeholder="Ex: 90">
+                </div>
+                <div class="sens-input-group">
+                    <label>Mira 2X</label>
+                    <input type="number" id="input-2x" placeholder="Ex: 92">
+                </div>
+                <div class="sens-input-group">
+                    <label>Mira 4X</label>
+                    <input type="number" id="input-4x" placeholder="Ex: 88">
+                </div>
+                <div class="sens-input-group">
+                    <label>Olhadinha</label>
+                    <input type="number" id="input-olhadinha" placeholder="Ex: 75">
+                </div>
+                <div class="sens-input-group">
+                    <label>Awm</label>
+                    <input type="number" id="input-awm" placeholder="Ex: 50">
+                </div>
+                <div class="sens-input-group">
+                    <label>DPI recomendado:</label>
+                    <input type="text" id="input-dpi" placeholder="Ex: 580 DPI">
+                </div>
+                <div class="sens-input-group">
+                    <label>Tamanho Button %</label>
+                    <input type="text" id="input-button" placeholder="Ex: 45%">
+                </div>
+
+                <div class="action-buttons-grid">
+                    <button class="btn-action btn-generate" onclick="solicitarGeracaoSensibilidade(event)">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Gerar sensibilidade
+                    </button>
+                    <button class="btn-action btn-share" onclick="compartilharSensibilidade(event)">
+                        <i class="fa-solid fa-share-nodes"></i> Compartilhar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 GSS GERADOR DE SENSIBILIDADE FREE FIRE. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Toast -->
+    <div id="toast"><i class="fa-solid fa-check"></i> Ação realizada com sucesso!</div>
+
+    <script>
+        const CHAVE_STORAGE = "gss_secure_token_v4_rigoroso";
+        const HASH_SECRET = 9182;
+        let ultimaExecucao = 0;
+        let captchaResolvido = false;
+        let timerCaptchaInterval = null;
+
+        function carregarCreditosSeguros() {
+            try {
+                let dadosCriptografados = localStorage.getItem(CHAVE_STORAGE);
+                if (!dadosCriptografados) {
+                    return salvarCreditosSeguros(10, { logado: false, nome: "Visitante", email: "Não logado" });
+                }
+                let payload = JSON.parse(atob(dadosCriptografados));
+                
+                if (payload.checksum !== (payload.creditos * HASH_SECRET) || payload.creditos > 10 || payload.creditos < 0) {
+                    return salvarCreditosSeguros(10, payload.usuario || { logado: false, nome: "Visitante", email: "Não logado" });
+                }
+                return payload;
+            } catch (e) {
+                return salvarCreditosSeguros(10, { logado: false, nome: "Visitante", email: "Não logado" });
+            }
+        }
+
+        function salvarCreditosSeguros(qtd, usuarioObj) {
+            let creditosValidados = Math.max(0, Math.min(10, Number(qtd) || 0));
+            let payload = {
+                creditos: creditosValidados,
+                usuario: usuarioObj,
+                checksum: creditosValidados * HASH_SECRET
+            };
+            localStorage.setItem(CHAVE_STORAGE, btoa(JSON.stringify(payload)));
+            return payload;
+        }
+
+        let estadoSistema = carregarCreditosSeguros();
+
+        function atualizarDadosUI() {
+            estadoSistema = carregarCreditosSeguros();
+            document.getElementById('creditos-sidebar').innerText = estadoSistema.creditos;
+            document.getElementById('creditos-modal').innerText = estadoSistema.creditos;
+            
+            const salutationEl = document.getElementById('memberSalutation');
+            if (estadoSistema.usuario.logado) {
+                salutationEl.innerText = `Salve, ${estadoSistema.usuario.nome} !`;
+            } else {
+                salutationEl.innerText = `Salve, Visitante !`;
+            }
+
+            document.getElementById('modal-username').innerText = estadoSistema.usuario.nome;
+            document.getElementById('modal-email').innerText = estadoSistema.usuario.email;
+        }
+
+        function abrirMenu() {
+            document.getElementById('mySidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('show');
+        }
+
+        function fecharMenu() {
+            document.getElementById('mySidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+        }
+
+        function entrarComGoogle() {
+            fecharMenu();
+            estadoSistema.usuario = {
+                logado: true,
+                nome: "MembroPro_FF",
+                email: "membropro@gmail.com"
+            };
+            estadoSistema = salvarCreditosSeguros(estadoSistema.creditos, estadoSistema.usuario);
+            atualizarDadosUI();
+            mostrarToast("Logado com sucesso via Google!");
+        }
+
+        function abrirPerfil() {
+            fecharMenu();
+            document.getElementById('modalPerfil').classList.add('show');
+        }
+
+        function abrirCreditos() {
+            fecharMenu();
+            document.getElementById('modalCreditos').classList.add('show');
+        }
+
+        function abrirRecarregar() {
+            fecharMenu();
+            document.getElementById('modalRecarregar').classList.add('show');
+        }
+
+        function abrirTermos(e) {
+            e.preventDefault();
+            alert("Exibindo Termos de Uso e Privacidade do GSS Sensibilidade.");
+        }
+
+        function abrirArtigo(e) {
+            e.preventDefault();
+            alert("Exibindo artigo sobre Como Coletamos Seus Dados.");
+        }
+
+        function fecharModais(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('show');
+                if (timerCaptchaInterval) clearInterval(timerCaptchaInterval);
+            }
+        }
+
+        function fecharModaisDirect() {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('show'));
+            if (timerCaptchaInterval) clearInterval(timerCaptchaInterval);
+        }
+
+        function recarregarCreditosMensais() {
+            estadoSistema = salvarCreditosSeguros(10, estadoSistema.usuario);
+            atualizarDadosUI();
+            fecharModaisDirect();
+            mostrarToast("Plano mensal renovado com segurança! (10/10 créditos)");
+        }
+
+        // --- SISTEMA DE VALIDAÇÃO HUMANA OBRIGATÓRIA (1 MINUTO) ---
+        function solicitarGeracaoSensibilidade(e) {
+            estadoSistema = carregarCreditosSeguros();
+            if (estadoSistema.creditos <= 0) {
+                abrirRecarregar();
+                return;
+            }
+
+            captchaResolvido = false;
+            if (timerCaptchaInterval) clearInterval(timerCaptchaInterval);
+            
+            document.getElementById('humanCheckbox').classList.remove('checked');
+            document.getElementById('captchaLoader').style.display = 'none';
+            document.getElementById('captchaBoxContainer').style.display = 'flex';
+            
+            const btnContinuar = document.getElementById('btnContinuarGerar');
+            btnContinuar.style.opacity = '0.5';
+            btnContinuar.style.pointerEvents = 'none';
+            btnContinuar.innerText = 'Aguardando verificação...';
+
+            document.getElementById('modalCaptcha').classList.add('show');
+        }
+
+        function marcarCaixinhaHumana() {
+            if (captchaResolvido) return;
+
+            const checkbox = document.getElementById('humanCheckbox');
+            checkbox.classList.add('checked');
+
+            document.getElementById('captchaBoxContainer').style.display = 'none';
+            document.getElementById('captchaLoader').style.display = 'block';
+
+            let segundosRestantes = 60; // 1 minuto rigoroso
+            const countdownEl = document.getElementById('countdownText');
+            countdownEl.innerText = `Verificando ambiente (01:00)...`;
+
+            timerCaptchaInterval = setInterval(() => {
+                segundosRestantes--;
+                let minutos = Math.floor(segundosRestantes / 60);
+                let segundos = segundosRestantes % 60;
+                let formatoTempo = String(minutos).padStart(2, '0') + ":" + String(segundos).padStart(2, '0');
+                
+                countdownEl.innerText = `Verificando ambiente (${formatoTempo})...`;
+
+                if (segundosRestantes <= 0) {
+                    clearInterval(timerCaptchaInterval);
+                    document.getElementById('captchaLoader').style.display = 'none';
+                    captchaResolvido = true;
+
+                    const btnContinuar = document.getElementById('btnContinuarGerar');
+                    btnContinuar.style.opacity = '1';
+                    btnContinuar.style.pointerEvents = 'auto';
+                    btnContinuar.innerText = 'Prosseguir com a Geração';
+                }
+            }, 1000);
+        }
+
+        // --- ESTRATÉGIA DE SEGURANÇA: EXIGÊNCIA DE LOGIN GOOGLE APÓS CAPTCHA ---
+        function concluirGeracaoAposCaptcha() {
+            if (!captchaResolvido) {
+                alert("Erro de segurança: Validação humana não concluída.");
+                fecharModaisDirect();
+                return;
+            }
+
+            document.getElementById('modalCaptcha').classList.remove('show');
+
+            estadoSistema = carregarCreditosSeguros();
+
+            // EXIGÊNCIA DE CONTA GOOGLE OBRIGATÓRIA PARA GERAR
+            if (!estadoSistema.usuario.logado) {
+                alert("🔒 Acesso Restrito: É necessário entrar com a sua conta Google para gerar e validar créditos mensais!");
+                abrirMenu(); // Abre o menu lateral direto na opção do Google
+                return;
+            }
+
+            let agora = Date.now();
+            if (agora - ultimaExecucao < 1500) {
+                mostrarToast("Aguarde um momento entre as gerações (Anti-Spam ativo).");
+                return;
+            }
+            ultimaExecucao = agora;
+
+            if (estadoSistema.creditos <= 0) {
+                abrirRecarregar();
+                return;
+            }
+
+            let novosCreditos = estadoSistema.creditos - 1;
+            estadoSistema = salvarCreditosSeguros(novosCreditos, estadoSistema.usuario);
+            atualizarDadosUI();
+
+            captchaResolvido = false; // Reseta para exigir captcha novamente na próxima
+
+            document.getElementById('input-geral').value = Math.floor(Math.random() * 10) + 90;
+            document.getElementById('input-reddot').value = Math.floor(Math.random() * 10) + 88;
+            document.getElementById('input-2x').value = Math.floor(Math.random() * 10) + 90;
+            document.getElementById('input-4x').value = Math.floor(Math.random() * 10) + 85;
+            document.getElementById('input-olhadinha').value = Math.floor(Math.random() * 15) + 70;
+            document.getElementById('input-awm').value = Math.floor(Math.random() * 20) + 40;
+            document.getElementById('input-dpi').value = "580 DPI";
+            document.getElementById('input-button').value = "44%";
+
+            mostrarToast(`Verificação e login Google aprovados! Sensibilidade gerada (${estadoSistema.creditos} restantes).`);
+        }
+
+        // --- SISTEMA DE COMPARTILHAMENTO UNIVERSAL ---
+        function compartilharSensibilidade(e) {
+            const geral = document.getElementById('input-geral').value || "95";
+            const reddot = document.getElementById('input-reddot').value || "90";
+            const m2x = document.getElementById('input-2x').value || "92";
+            const m4x = document.getElementById('input-4x').value || "88";
+            const olhadinha = document.getElementById('input-olhadinha').value || "75";
+            const awm = document.getElementById('input-awm').value || "50";
+            const dpi = document.getElementById('input-dpi').value || "580 DPI";
+            const botao = document.getElementById('input-button').value || "44%";
+
+            const textoCompartilhar = 
+                `🔥 PACK SENSIBILIDADE FREE FIRE - GSS 🔥\n` +
+                `- Geral: ${geral}\n` +
+                `- Ponto Vermelho: ${reddot}\n` +
+                `- Mira 2X: ${m2x}\n` +
+                `- Mira 4X: ${m4x}\n` +
+                `- Olhadinha: ${olhadinha}\n` +
+                `- Awm: ${awm}\n` +
+                `- DPI recomendado: ${dpi}\n` +
+                `- Tamanho Button: ${botao}\n` +
+                `Gerado por GSS Sensibilidade Oficial.`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Pack Sensibilidade GSS',
+                    text: textoCompartilhar,
+                }).then(() => {
+                    mostrarToast("Conteúdo compartilhado com sucesso!");
+                }).catch((error) => {
+                    if (error.name !== 'AbortError') {
+                        copiarFallbackUniversal(textoCompartilhar);
+                    }
+                });
+            } else {
+                copiarFallbackUniversal(textoCompartilhar);
+            }
+        }
+
+        function copiarFallbackUniversal(texto) {
+            const textArea = document.createElement("textarea");
+            textArea.value = texto;
+            textArea.style.position = "fixed";
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const sucesso = document.execCommand('copy');
+                if (sucesso) {
+                    mostrarToast("Pack copiado para a área de transferência!");
+                } else {
+                    mostrarToast("Erro ao copiar. Selecione manualmente.");
+                }
+            } catch (err) {
+                mostrarToast("Não foi possível copiar automaticamente.");
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        function mostrarToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerHTML = `<i class="fa-solid fa-check"></i> ${msg}`;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        atualizarDadosUI();
+    </script>
+</body>
+</html>
