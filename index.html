@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel ADM - Gerenciador de Chaves</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, setDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Cole aqui a sua configuração web do Firebase
+        const firebaseConfig = {
+
+  apiKey: "AIzaSyADlv7CYo5TTRA99PzRmB2jmk0i6Q2X2K4",
+
+  authDomain: "gssmax-projet.firebaseapp.com",
+
+  projectId: "gssmax-projet",
+
+  storageBucket: "gssmax-projet.firebasestorage.app",
+
+  messagingSenderId: "317306173103",
+
+  appId: "1:317306173103:web:c5d9506a2dce30d6d6865a",
+
+  measurementId: "G-MZ4KCWKZKV"
+
+};
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function carregarChaves() {
+            const lista = document.getElementById('listaChaves');
+            lista.innerHTML = '<p class="text-zinc-500 text-sm">Carregando chaves...</p>';
+            
+            try {
+                const querySnapshot = await getDocs(collection(db, "chaves_clientes"));
+                lista.innerHTML = '';
+                
+                if (querySnapshot.empty) {
+                    lista.innerHTML = '<p class="text-zinc-500 text-sm">Nenhuma chave cadastrada ainda.</p>';
+                    return;
+                }
+
+                querySnapshot.forEach((documento) => {
+                    const dados = documento.data();
+                    const chaveId = documento.id;
+                    
+                    lista.innerHTML += `
+                        <div class="bg-black border border-zinc-800 p-4 rounded-xl flex items-center justify-between mb-3">
+                            <div>
+                                <p class="text-xs font-bold text-zinc-300">Cliente: ${dados.cliente || 'Sem nome'}</p>
+                                <p class="text-sm font-mono text-indigo-400 mt-1 select-all">${chaveId}</p>
+                                <p class="text-[10px] text-zinc-500 mt-1">Status: ${dados.ativo ? 'Ativo ✅' : 'Bloqueado ❌'}</p>
+                            </div>
+                            <button onclick="deletarChave('${chaveId}')" class="bg-red-950/40 border border-red-800 text-red-400 px-3 py-1.5 rounded-lg text-xs hover:bg-red-900/50 transition cursor-pointer">Excluir</button>
+                        </div>
+                    `;
+                });
+            } catch (e) {
+                console.error(e);
+                lista.innerHTML = '<p class="text-red-400 text-sm">Erro ao carregar chaves do Firebase.</p>';
+            }
+        }
+
+        document.getElementById('formCriarChave').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const nomeCliente = document.getElementById('nomeCliente').value;
+            // Cria uma chave única limpa e profissional
+            const novaChave = 'FAEL-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Date.now().toString().slice(-4);
+
+            try {
+                // Salva a própria chave gerada como o ID do documento no Firestore
+                await setDoc(doc(db, "chaves_clientes", novaChave), {
+                    cliente: nomeCliente,
+                    ativo: true,
+                    criadoEm: new Date().toISOString()
+                });
+
+                document.getElementById('nomeCliente').value = '';
+                alert('Chave gerada com sucesso: ' + novaChave);
+                carregarChaves();
+            } catch (err) {
+                console.error(err);
+                alert('Erro ao gerar chave.');
+            }
+        });
+
+        window.deletarChave = async function(id) {
+            if (confirm('Tem certeza que deseja excluir esta chave? O cliente perderá o acesso imediatamente.')) {
+                try {
+                    await deleteDoc(doc(db, "chaves_clientes", id));
+                    carregarChaves();
+                } catch (e) {
+                    alert('Erro ao excluir.');
+                }
+            }
+        }
+
+        window.onload = carregarChaves;
+    </script>
+</head>
+<body class="bg-black text-white min-h-screen p-6">
+    <div class="max-w-xl mx-auto space-y-6">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-2xl">
+            <h1 class="text-xl font-bold tracking-tight mb-1">Painel ADM - Gerenciador</h1>
+            <p class="text-xs text-zinc-400 mb-6">Controle de chaves de acesso dos clientes</p>
+
+            <form id="formCriarChave" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Nome do Cliente / Comprador</label>
+                    <input type="text" id="nomeCliente" placeholder="Ex: João da Silva" required
+                        class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 transition text-white">
+                </div>
+                <button type="submit"
+                    class="w-full bg-white text-black font-semibold py-3 rounded-xl hover:bg-zinc-200 transition text-sm cursor-pointer">
+                    Gerar Nova Chave de Acesso
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-2xl">
+            <h2 class="text-sm font-bold tracking-tight mb-4">Chaves Cadastradas no Firebase</h2>
+            <div id="listaChaves"></div>
+        </div>
+    </div>
+</body>
+</html>
