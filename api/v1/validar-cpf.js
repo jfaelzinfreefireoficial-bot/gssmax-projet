@@ -14,12 +14,14 @@ export default async function handler(req, res) {
     const apiKey = req.headers['x-api-key'];
     const { cpf } = req.body;
 
+    // Pega a URL de onde a requisição está vindo (Origem)
+    const originHeader = req.headers['origin'] || req.headers['referer'] || '';
+
     if (!apiKey) {
         return res.status(401).json({ valido: false, mensagem: 'Chave de acesso ausente.' });
     }
 
     try {
-        // Consulta direta e segura no Firestore via API REST do Firebase (Zero dependências complexas)
         const projectId = "gssmax-projet";
         const firestoreUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/chaves_clientes/${apiKey}`;
 
@@ -31,11 +33,28 @@ export default async function handler(req, res) {
 
         const dadosChave = await respostaFirebase.json();
         
-        // Verifica se o campo 'ativo' é verdadeiro no documento
         const ativo = dadosChave.fields && dadosChave.fields.ativo && dadosChave.fields.ativo.booleanValue;
+        const dominioCadastrado = dadosChave.fields && dadosChave.fields.dominio && dadosChave.fields.dominio.stringValue;
 
         if (!ativo) {
             return res.status(403).json({ valido: false, mensagem: 'Chave bloqueada ou inativa.' });
+        }
+
+        // TRAVA DE SEGURANÇA POR DOMÍNIO:
+        // Se o cliente cadastrou um domínio e a requisição não veio dele (e não for localhost/ambiente de teste autorizado)
+        if (dominioCadastrado) {
+            const origemLimpa = originHeader.toLowerCase().replace(/https?:\/\//g, '').split('/')[0];
+            const dominioLimpo = dominioCadastrado.toLowerCase().replace(/https?:\/\//g, '').split('/')[0];
+
+            // Permite testes locais caso você precise testar no seu PC/celular
+            const ehLocalhost = origemLimpa.includes('localhost') || origemLimpa.includes('127.0.0.1') || origemLimpa.includes('netlify.app');
+
+            if (!ehLocalhost && !origemLimpa.includes(dominioLimpo)) {
+                return res.status(403).json({ 
+                    valido: false, 
+                    mensagem: `Acesso negado: Esta chave está vinculada exclusivamente ao domínio ${dominioCadastrado}.` 
+                });
+            }
         }
 
         const cpfLimpo = cpf ? cpf.replace(/\D/g, '') : '';
@@ -50,7 +69,7 @@ export default async function handler(req, res) {
 
     } catch (error) {
         console.error('Erro na API:', error);
-        return res.status(500).json({ valido: false, mensagem: 'Erro interno no servidor.' 
-                                    });
+        return res.status(500).json({ valido: false, mensagem: 'Erro interno no servido
+                r.' });
     }
-                                         }
+            }
