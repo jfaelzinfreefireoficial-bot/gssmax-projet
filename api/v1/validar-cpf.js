@@ -22,6 +22,7 @@ export default async function handler(req, res) {
         const projectId = "gssmax-projet";
         const firestoreUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/chaves_clientes/${apiKey}`;
 
+        // 1. Busca os dados da chave no Firebase
         const respostaFirebase = await fetch(firestoreUrl);
 
         if (!respostaFirebase.ok) {
@@ -37,10 +38,30 @@ export default async function handler(req, res) {
             return res.status(403).json({ valido: false, mensagem: 'Chave bloqueada ou inativa.' });
         }
 
+        // 2. Valida o CPF
         const cpfLimpo = cpf ? cpf.replace(/\D/g, '') : '';
         if (cpfLimpo.length !== 11) {
             return res.status(400).json({ valido: false, mensagem: 'CPF inválido.' });
         }
+
+        // 3. Pega o valor atual de consultas e soma +1
+        const consultasAtuais = campos.consultas && campos.consultas.integerValue ? parseInt(campos.consultas.integerValue) : 0;
+        const novasConsultas = consultasAtuais + 1;
+
+        // 4. Atualiza o contador de consultas no Firebase (Patch)
+        const updateUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/chaves_clientes/${apiKey}?updateMask.fieldPaths=consultas`;
+        
+        await fetch(updateUrl, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                fields: {
+                    consultas: { integerValue: novasConsultas }
+                }
+            })
+        });
 
         return res.status(200).json({ 
             valido: true, 
@@ -49,7 +70,7 @@ export default async function handler(req, res) {
 
     } catch (error) {
         console.error('Erro na API:', error);
-        return res.status(500).json({ valido: false, mensagem: 'Erro interno no servidor.' 
-                                    });
+        return res.status(500).json({ valido: false, mensagem: 'Erro interno no servidor.
+            ' });
     }
-        }
+                }
