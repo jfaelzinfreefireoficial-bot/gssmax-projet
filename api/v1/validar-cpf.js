@@ -44,24 +44,22 @@ export default async function handler(req, res) {
             return res.status(400).json({ valido: false, mensagem: 'CPF inválido.' });
         }
 
-        // 3. Pega o valor atual de consultas e soma +1
+        // 3. Incrementa o contador de consultas com segurança
         const consultasAtuais = campos.consultas && campos.consultas.integerValue ? parseInt(campos.consultas.integerValue) : 0;
         const novasConsultas = consultasAtuais + 1;
 
-        // 4. Atualiza o contador de consultas no Firebase (Patch)
         const updateUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/chaves_clientes/${apiKey}?updateMask.fieldPaths=consultas`;
         
-        await fetch(updateUrl, {
+        // Executa o update em segundo plano sem travar a resposta principal caso dê algum aviso do Firestore
+        fetch(updateUrl, {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 fields: {
-                    consultas: { integerValue: novasConsultas }
+                    consultas: { integerValue: String(novasConsultas) }
                 }
             })
-        });
+        }).catch(err => console.error("Erro ao atualizar contador:", err));
 
         return res.status(200).json({ 
             valido: true, 
@@ -71,6 +69,6 @@ export default async function handler(req, res) {
     } catch (error) {
         console.error('Erro na API:', error);
         return res.status(500).json({ valido: false, mensagem: 'Erro interno no servidor.
-            ' });
+                ' });
     }
-                }
+                                                                                             }
