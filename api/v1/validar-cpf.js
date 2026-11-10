@@ -1,15 +1,18 @@
-import { initializeApp, getApps } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
-import admin from "firebase-admin";
+import { initializeApp, getApps } from "firebase/app";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
-if (!getApps().length) {
-    initializeApp({
-        credential: admin.credential.applicationDefault(),
-        projectId: "gssmax-projet"
-    });
-}
+const firebaseConfig = {
+    apiKey: "AIzaSyADlv7CYo5TTRA99PzRmB2jmk0i6Q2X2K4",
+    authDomain: "gssmax-projet.firebaseapp.com",
+    projectId: "gssmax-projet",
+    storageBucket: "gssmax-projet.firebasestorage.app",
+    messagingSenderId: "317306173103",
+    appId: "1:317306173103:web:c5d9506a2dce30d6d6865a",
+    measurementId: "G-MZ4KCWKZKV"
+};
 
-const db = getFirestore();
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
+const db = getFirestore(app);
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -32,10 +35,10 @@ export default async function handler(req, res) {
     }
 
     try {
-        const keyRef = db.collection('chaves_clientes').doc(apiKey);
-        const keyDoc = await keyRef.get();
+        const keyRef = doc(db, "chaves_clientes", apiKey);
+        const keyDoc = await getDoc(keyRef);
 
-        if (!keyDoc.exists || !keyDoc.data().ativo) {
+        if (!keyDoc.exists() || !keyDoc.data().ativo) {
             return res.status(403).json({ valido: false, mensagem: 'Chave de acesso inválida ou expirada.' });
         }
 
@@ -52,6 +55,6 @@ export default async function handler(req, res) {
     } catch (error) {
         console.error('Erro na API:', error);
         return res.status(500).json({ valido: false, mensagem: 'Erro interno no servidor.' 
-                                    });
+        });
     }
-  }
+    }
