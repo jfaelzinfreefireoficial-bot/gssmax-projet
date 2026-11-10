@@ -13,8 +13,6 @@ export default async function handler(req, res) {
 
     const apiKey = req.headers['x-api-key'];
     const { cpf } = req.body;
-
-    // Pega a URL de onde a requisição está vindo (Origem)
     const originHeader = req.headers['origin'] || req.headers['referer'] || '';
 
     if (!apiKey) {
@@ -32,27 +30,29 @@ export default async function handler(req, res) {
         }
 
         const dadosChave = await respostaFirebase.json();
+        const campos = dadosChave.fields || {};
         
-        const ativo = dadosChave.fields && dadosChave.fields.ativo && dadosChave.fields.ativo.booleanValue;
-        const dominioCadastrado = dadosChave.fields && dadosChave.fields.dominio && dadosChave.fields.dominio.stringValue;
+        const ativo = campos.ativo && campos.ativo.booleanValue;
+        const dominioCadastrado = campos.dominio && campos.dominio.stringValue ? campos.dominio.stringValue : '';
 
         if (!ativo) {
             return res.status(403).json({ valido: false, mensagem: 'Chave bloqueada ou inativa.' });
         }
 
-        // TRAVA DE SEGURANÇA POR DOMÍNIO:
-        // Se o cliente cadastrou um domínio e a requisição não veio dele (e não for localhost/ambiente de teste autorizado)
-        if (dominioCadastrado) {
+        if (dominioCadastrado && dominioCadastrado.trim() !== '') {
             const origemLimpa = originHeader.toLowerCase().replace(/https?:\/\//g, '').split('/')[0];
             const dominioLimpo = dominioCadastrado.toLowerCase().replace(/https?:\/\//g, '').split('/')[0];
 
-            // Permite testes locais caso você precise testar no seu PC/celular
-            const ehLocalhost = origemLimpa.includes('localhost') || origemLimpa.includes('127.0.0.1') || origemLimpa.includes('netlify.app');
+            const ehAmbienteTeste = origemLimpa.includes('localhost') || 
+                                    origemLimpa.includes('127.0.0.1') || 
+                                    origemLimpa.includes('netlify.app') || 
+                                    origemLimpa.includes('vercel.app') ||
+                                    origemLimpa === '';
 
-            if (!ehLocalhost && !origemLimpa.includes(dominioLimpo)) {
+            if (!ehAmbienteTeste && !origemLimpa.includes(dominioLimpo)) {
                 return res.status(403).json({ 
                     valido: false, 
-                    mensagem: `Acesso negado: Esta chave está vinculada exclusivamente ao domínio ${dominioCadastrado}.` 
+                    mensagem: `Acesso negado: Chave restrita ao domínio ${dominioCadastrado}.` 
                 });
             }
         }
@@ -69,7 +69,7 @@ export default async function handler(req, res) {
 
     } catch (error) {
         console.error('Erro na API:', error);
-        return res.status(500).json({ valido: false, mensagem: 'Erro interno no servido
-                r.' });
+        return res.status(500).json({ valido: false, mensagem: 'Erro interno no servidor
+                    .' });
     }
-            }
+                                         }
