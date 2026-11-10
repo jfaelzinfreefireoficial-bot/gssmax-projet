@@ -1,9 +1,8 @@
-export default function handler(req, res) {
-    // Configuração de CORS
+export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-api-key');
-
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
@@ -12,56 +11,94 @@ export default function handler(req, res) {
         return res.status(405).json({ valido: false, mensagem: 'Método não permitido.' });
     }
 
-    // Validação da API Key
     const apiKey = req.headers['x-api-key'];
-    if (apiKey !== 'FAEL-E7JAJP-5444') {
-        return res.status(401).json({ valido: false, mensagem: 'Chave de API inválida.' });
-    }
-
     const { senha } = req.body;
 
-    if (!senha || typeof senha !== 'string') {
-        return res.status(400).json({ valido: false, mensagem: 'Nenhuma senha foi fornecida.' });
+    if (!apiKey) {
+        return res.status(401).json({ valido: false, mensagem: 'Chave de acesso ausente.' });
     }
 
-    // Critérios de validação
-    const temTamanhoMinimo = senha.length >= 8;
-    const temMaiuscula = /[A-Z]/.test(senha);
-    const temMinuscula = /[a-z]/.test(senha);
-    const temNumero = /[0-9]/.test(senha);
-    const temEspecial = /[!@#$%^&*(),.?":{}|<>]/.test(senha);
+    try {
+        const projectId = "gssmax-projet";
+        const firestoreUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/chaves_clientes/${apiKey}`;
 
-    const senhaForte = temTamanhoMinimo && temMaiuscula && temMinuscula && temNumero && temEspecial;
+        // 1. Busca os dados da chave no Firebase
+        const respostaFirebase = await fetch(firestoreUrl);
 
-    if (senhaForte) {
-        return res.status(200).json({
-            valido: true,
-            mensagem: 'Senha forte aprovada com sucesso!',
-            dados: {
-                forca: 'Alta',
-                caracteres: senha.length
+        if (!respostaFirebase.ok) {
+            return res.status(403).json({ 
+                valido: false, 
+                mensagem: 'API não existe ou foi deletado do sistema. Entre em contato com administrador' 
+            });
+        }
+
+        const dadosChave = await respostaFirebase.json();
+        const campos = dadosChave.fields || {};
+        
+        // 2. Verifica se a chave está ativa
+        const ativo = campos.ativo ? campos.ativo.booleanValue : true;
+        if (!ativo) {
+            return res.status(403).json({ 
+                valido: false, 
+                mensagem: 'entre em contato com administrador . API bloqueado automaticamente pelo sistema SaaS' 
+            });
+        }
+
+        // 3. Verifica se o plano expirou
+        if (campos.vencimento && campos.vencimento.stringValue) {
+            const dataVencimento = new Date(campos.vencimento.stringValue);
+            const dataAtual = new Date();
+
+            if (dataAtual > dataVencimento) {
+                return res.status(403).json({ 
+                    valido: false, 
+                    mensagem: 'Plano expirado automaticamente. Renove o seu plano através de nosso site ou entre em contato com administrador!' 
+                });
+            }
+        }
+
+        // 4. Validação da Senha (Mínimo de 6 caracteres)
+        const senhaTexto = senha ? String(senha) : '';
+
+        if (senhaTexto.length < 6) {
+            return res.status(400).json({ 
+                valido: false, 
+                mensagem: 'Senha inválida. A senha deve conter no mínimo 6 caracteres.' 
+            });
+        }
+
+        // 5. Atualiza o contador de consultas no Firebase de forma isolada
+        const consultasAtuais = campos.consultas && campos.consultas.integerValue ? parseInt(campos.consultas.integerValue) : 0;
+        const novasConsultas = consultasAtuais + 1;
+
+        const updateUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/chaves_clientes/${apiKey}?updateMask.fieldPaths=consultas`;
+        
+        await fetch(updateUrl, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                fields: {
+                    consultas: { integerValue: String(novasConsultas) }
+                }
+            })
+        }).catch(() => {});
+
+        // 6. Retorno padronizado de sucesso
+        return res.status(200).json({ 
+            valido: true, 
+            mensagem: 'API ativado com sucesso',
+            detalhes: {
+                tamanho: senhaTexto.length,
+                forca: senhaTexto.length >= 8 ? 'Forte' : 'Média'
             }
         });
-    } else {
-        // Monta uma mensagem detalhada do que falta
-        let falhas = [];
-        if (!temTamanhoMinimo) falhas.push('mínimo de 8 caracteres');
-        if (!temMaiuscula) falhas.push('letra maiúscula');
-        if (!temMinuscula) falhas.push('letra minúscula');
-        if (!temNumero) falhas.push('número');
-        if (!temEspecial) falhas.push('caractere especial');
 
-        return res.status(200).json({
-            valido: false,
-            mensagem: `Senha fraca. Faltando: ${falhas.join(', ')}.`,
-            requisitos: {
-                tamanhoMinimo: temTamanhoMinimo,
-                maiuscula: temMaiuscula,
-                minuscula: temMinuscula,
-                numero: temNumero,
-                especial: temEspecial
-            }
+    } catch (error) {
+        console.error('Erro na API:', error);
+        return res.status(500).json({ 
+            valido: false, 
+            mensagem: 'Erro interno ao processar a validação de senha.' 
+    
         });
     }
-                 
-                                    }
+                    }
