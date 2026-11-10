@@ -1,19 +1,3 @@
-import { initializeApp, getApps } from "firebase/app";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyADlv7CYo5TTRA99PzRmB2jmk0i6Q2X2K4",
-    authDomain: "gssmax-projet.firebaseapp.com",
-    projectId: "gssmax-projet",
-    storageBucket: "gssmax-projet.firebasestorage.app",
-    messagingSenderId: "317306173103",
-    appId: "1:317306173103:web:c5d9506a2dce30d6d6865a",
-    measurementId: "G-MZ4KCWKZKV"
-};
-
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
-const db = getFirestore(app);
-
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-api-key');
@@ -35,11 +19,23 @@ export default async function handler(req, res) {
     }
 
     try {
-        const keyRef = doc(db, "chaves_clientes", apiKey);
-        const keyDoc = await getDoc(keyRef);
+        // Consulta direta e segura no Firestore via API REST do Firebase (Zero dependências complexas)
+        const projectId = "gssmax-projet";
+        const firestoreUrl = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/chaves_clientes/${apiKey}`;
 
-        if (!keyDoc.exists() || !keyDoc.data().ativo) {
+        const respostaFirebase = await fetch(firestoreUrl);
+
+        if (!respostaFirebase.ok) {
             return res.status(403).json({ valido: false, mensagem: 'Chave de acesso inválida ou expirada.' });
+        }
+
+        const dadosChave = await respostaFirebase.json();
+        
+        // Verifica se o campo 'ativo' é verdadeiro no documento
+        const ativo = dadosChave.fields && dadosChave.fields.ativo && dadosChave.fields.ativo.booleanValue;
+
+        if (!ativo) {
+            return res.status(403).json({ valido: false, mensagem: 'Chave bloqueada ou inativa.' });
         }
 
         const cpfLimpo = cpf ? cpf.replace(/\D/g, '') : '';
@@ -55,6 +51,6 @@ export default async function handler(req, res) {
     } catch (error) {
         console.error('Erro na API:', error);
         return res.status(500).json({ valido: false, mensagem: 'Erro interno no servidor.' 
-        });
+                                    });
     }
-    }
+                                         }
