@@ -13,7 +13,6 @@ export default async function handler(req, res) {
 
     const apiKey = req.headers['x-api-key'];
     const { cpf } = req.body;
-    const originHeader = req.headers['origin'] || req.headers['referer'] || '';
 
     if (!apiKey) {
         return res.status(401).json({ valido: false, mensagem: 'Chave de acesso ausente.' });
@@ -33,28 +32,9 @@ export default async function handler(req, res) {
         const campos = dadosChave.fields || {};
         
         const ativo = campos.ativo && campos.ativo.booleanValue;
-        const dominioCadastrado = campos.dominio && campos.dominio.stringValue ? campos.dominio.stringValue : '';
 
         if (!ativo) {
             return res.status(403).json({ valido: false, mensagem: 'Chave bloqueada ou inativa.' });
-        }
-
-        if (dominioCadastrado && dominioCadastrado.trim() !== '') {
-            const origemLimpa = originHeader.toLowerCase().replace(/https?:\/\//g, '').split('/')[0];
-            const dominioLimpo = dominioCadastrado.toLowerCase().replace(/https?:\/\//g, '').split('/')[0];
-
-            const ehAmbienteTeste = origemLimpa.includes('localhost') || 
-                                    origemLimpa.includes('127.0.0.1') || 
-                                    origemLimpa.includes('netlify.app') || 
-                                    origemLimpa.includes('vercel.app') ||
-                                    origemLimpa === '';
-
-            if (!ehAmbienteTeste && !origemLimpa.includes(dominioLimpo)) {
-                return res.status(403).json({ 
-                    valido: false, 
-                    mensagem: `Acesso negado: Chave restrita ao domínio ${dominioCadastrado}.` 
-                });
-            }
         }
 
         const cpfLimpo = cpf ? cpf.replace(/\D/g, '') : '';
@@ -69,7 +49,7 @@ export default async function handler(req, res) {
 
     } catch (error) {
         console.error('Erro na API:', error);
-        return res.status(500).json({ valido: false, mensagem: 'Erro interno no servidor
-                    .' });
+        return res.status(500).json({ valido: false, mensagem: 'Erro interno no servidor.' 
+                                    });
     }
-                                         }
+        }
