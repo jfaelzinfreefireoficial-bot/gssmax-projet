@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, setDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getFirestore, collection, setDoc, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyADlv7CYo5TTRA99PzRmB2jmk0i6Q2X2K4",
@@ -38,16 +38,38 @@
                 querySnapshot.forEach((documento) => {
                     const dados = documento.data();
                     const chaveId = documento.id;
+                    const ativo = dados.ativo !== false;
+                    const consultas = dados.consultas || 0;
+                    const vencimento = dados.vencimento ? new Date(dados.vencimento).toLocaleDateString('pt-BR') : 'Não definido';
+                    const contato = dados.contato || 'Não informado';
                     
                     lista.innerHTML += `
-                        <div class="bg-black border border-zinc-800 p-4 rounded-xl flex items-center justify-between mb-3">
-                            <div>
-                                <p class="text-xs font-bold text-zinc-300">Cliente: ${dados.cliente || 'Sem nome'}</p>
-                                <p class="text-xs text-indigo-400 mt-0.5">Site Permitido: <span class="underline">${dados.dominio || 'Não informado'}</span></p>
-                                <p class="text-sm font-mono text-emerald-400 mt-1 select-all">${chaveId}</p>
-                                <p class="text-[10px] text-zinc-500 mt-1">Status: ${dados.ativo ? 'Ativo ✅' : 'Bloqueado ❌'}</p>
+                        <div class="bg-black border border-zinc-800 p-4 rounded-xl mb-3 space-y-3">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="text-xs font-bold text-zinc-300">Cliente: ${dados.cliente || 'Sem nome'}</p>
+                                    <p class="text-[11px] text-zinc-400 mt-0.5">Contato: ${contato}</p>
+                                    <p class="text-xs text-indigo-400 mt-0.5">Site Permitido: <span class="underline">${dados.dominio || 'Não informado'}</span></p>
+                                    <p class="text-sm font-mono text-emerald-400 mt-1 select-all">${chaveId}</p>
+                                </div>
+                                <div class="text-right">
+                                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-semibold ${ativo ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-red-950 text-red-400 border border-red-800'}">
+                                        ${ativo ? 'Ativo ✅' : 'Bloqueado ❌'}
+                                    </span>
+                                </div>
                             </div>
-                            <button onclick="deletarChave('${chaveId}')" class="bg-red-950/40 border border-red-800 text-red-400 px-3 py-1.5 rounded-lg text-xs hover:bg-red-900/50 transition cursor-pointer">Excluir</button>
+
+                            <div class="grid grid-cols-2 gap-2 bg-zinc-950 p-2.5 rounded-lg border border-zinc-800 text-[11px] text-zinc-400">
+                                <div>Consultas: <strong class="text-white">${consultas}</strong></div>
+                                <div>Vencimento: <strong class="text-white">${vencimento}</strong></div>
+                            </div>
+
+                            <div class="flex items-center justify-end gap-2 pt-1 border-t border-zinc-900">
+                                <button onclick="alternarStatus('${chaveId}', ${ativo})" class="bg-zinc-800 text-zinc-200 px-3 py-1.5 rounded-lg text-xs hover:bg-zinc-700 transition cursor-pointer">
+                                    ${ativo ? 'Bloquear 🔒' : 'Ativar 🟢'}
+                                </button>
+                                <button onclick="deletarChave('${chaveId}')" class="bg-red-950/40 border border-red-800 text-red-400 px-3 py-1.5 rounded-lg text-xs hover:bg-red-900/50 transition cursor-pointer">Excluir</button>
+                            </div>
                         </div>
                     `;
                 });
@@ -61,6 +83,11 @@
             e.preventDefault();
             const nomeCliente = document.getElementById('nomeCliente').value.trim();
             const dominioCliente = document.getElementById('dominioCliente').value.trim().toLowerCase().replace(/https?:\/\//g, '').replace(/\/$/, '');
+            const contatoCliente = document.getElementById('contatoCliente').value.trim();
+            const diasVencimento = parseInt(document.getElementById('diasVencimento').value) || 30;
+
+            const dataVenc = new Date();
+            dataVenc.setDate(dataVenc.getDate() + diasVencimento);
             
             const novaChave = 'FAEL-' + Math.random().toString(36).substring(2, 8).toUpperCase() + '-' + Date.now().toString().slice(-4);
 
@@ -68,12 +95,16 @@
                 await setDoc(doc(db, "chaves_clientes", novaChave), {
                     cliente: nomeCliente,
                     dominio: dominioCliente,
+                    contato: contatoCliente,
                     ativo: true,
+                    consultas: 0,
+                    vencimento: dataVenc.toISOString(),
                     criadoEm: new Date().toISOString()
                 });
 
                 document.getElementById('nomeCliente').value = '';
                 document.getElementById('dominioCliente').value = '';
+                document.getElementById('contatoCliente').value = '';
                 alert('Chave com trava de domínio gerada com sucesso: ' + novaChave);
                 carregarChaves();
             } catch (err) {
@@ -81,6 +112,17 @@
                 alert('Erro ao gerar chave.');
             }
         });
+
+        window.alternarStatus = async function(id, statusAtual) {
+            try {
+                const docRef = doc(db, "chaves_clientes", id);
+                await updateDoc(docRef, { ativo: !statusAtual });
+                carregarChaves();
+            } catch (e) {
+                console.error(e);
+                alert('Erro ao alterar status da chave.');
+            }
+        }
 
         window.deletarChave = async function(id) {
             if (confirm('Deseja excluir esta chave permanentemente?')) {
@@ -100,7 +142,7 @@
     <div class="max-w-xl mx-auto space-y-6">
         <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-2xl">
             <h1 class="text-xl font-bold tracking-tight mb-1">Painel ADM - Gerenciador</h1>
-            <p class="text-xs text-zinc-400 mb-6">Cadastro de chaves com restrição de domínio</p>
+            <p class="text-xs text-zinc-400 mb-6">Cadastro de chaves com restrição de domínio, contador e controle de vencimento</p>
 
             <form id="formCriarChave" class="space-y-4">
                 <div>
@@ -114,6 +156,18 @@
                         class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 transition text-white">
                     <p class="text-[10px] text-zinc-500 mt-1">A chave só funcionará quando requisitada a partir deste site.</p>
                 </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-300 mb-1">Contato (WhatsApp / E-mail)</label>
+                        <input type="text" id="contatoCliente" placeholder="Ex: (11) 99999-9999"
+                            class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 transition text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-zinc-300 mb-1">Validade (Dias)</label>
+                        <input type="number" id="diasVencimento" value="30" min="1" required
+                            class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 transition text-white">
+                    </div>
+                </div>
                 <button type="submit"
                     class="w-full bg-white text-black font-semibold py-3 rounded-xl hover:bg-zinc-200 transition text-sm cursor-pointer">
                     Gerar Chave Protegida
@@ -126,6 +180,5 @@
             <div id="listaChaves"></div>
         </div>
     </div>
-</bo
-    dy>
-    </html>
+</body>
+                            </html>
